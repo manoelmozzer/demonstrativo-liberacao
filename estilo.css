@@ -1,0 +1,61 @@
+body{
+  margin: 5mm 5mm 5mm 5mm;
+}
+
+table thead{
+    border-bottom: 1px solid #000000;
+}
+
+td.botoes{
+  /*text-align:center; */
+  vertical-align:middle;
+  white-space: nowrap;
+  width: 15px !important;
+}
+
+/* Botão Deletar */
+.btn-outline-danger {
+  border: 0;
+}
+
+/* Botão Reordenar */
+button.reordenar {
+  pointer-events: none;
+}
+span:hover button.reordenar {
+  color: #0d6efd !important;
+}
+/*.ui-sortable tr:active button.reordenar {
+    color: #0d6efd !important;
+}*/
+
+/* Botão Adicionar */
+button.adicionar {
+  font-size: 1.5rem;
+}
+
+
+/* Remover flechas do input number */
+/* https://www.w3schools.com/howto/howto_css_hide_arrow_number.asp */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Tabela no estilo excel */
+/*td input {border: 0 !important; border-radius: 0 !important; min-height: 100%;}
+td {margin: 0 !important; padding: 0 !important;}*/
+
+
+/*
+table tfoot{
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+}
+*/
