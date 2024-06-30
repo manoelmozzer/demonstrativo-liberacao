@@ -2,8 +2,21 @@ body{
   margin: 5mm 5mm 5mm 5mm;
 }
 
+/* Linha cabeçalho da tabela */
 table thead{
-    border-bottom: 1px solid #000000;
+  /* border-bottom: 1px solid #000000;*/
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Espaço após a linha do cabeçalho */
+/* table tbody after deve solucionar a linha inferior */
+/* https://stackoverflow.com/questions/14735569/css-double-border-2-colors-without-using-outline/14735816#14735816 */
+table tbody:before{
+  content: "";
+  display: block;
+  /* Debug */
+  /* border-bottom: 4px solid #36F; */
+   border-bottom: 4px solid transparent;
 }
 
 td.botoes{
@@ -52,6 +65,39 @@ input[type=number] {
 /*td input {border: 0 !important; border-radius: 0 !important; min-height: 100%;}
 td {margin: 0 !important; padding: 0 !important;}*/
 
+/* Espaço do começo do conteúdo: adicionar tamanho da nav-bar */
+/* https://stackoverflow.com/questions/71422815/fixed-navbar-hiding-page-content/71423032#71423032 */
+.margemSuperior {
+/*  margin-top: 8px;*/
+  padding-top: 62px;
+}
+
+/* LABEL DO INPUT */
+
+/* Cor do label não selecionado */
+/* Configurada a mesma do selecionado */
+.form-floating>label {
+  color: rgba(33, 37, 41, .65);
+}
+/* Fundo do label selecionado transparente */
+/* Selecionar o texto do input não gera desnível na cor da seleção */
+.form-floating>.form-control-plaintext~label::after,
+.form-floating>.form-control:focus~label::after,
+.form-floating>.form-control:not(:placeholder-shown)~label::after,
+.form-floating>.form-select~label::after {
+  background-color: transparent;
+}
+
+/* Legenda do input na borda superior */
+/* https://stackoverflow.com/questions/71688886/bootstrap-5-floating-label-on-top-of-the-field */
+/* https://stackoverflow.com/questions/70928805/floating-form-labels-overlapping-with-form-input-in-bootstrap */
+/*.form-floating>.form-control:focus~label,
+.form-floating>.form-control:not(:placeholder-shown)~label,
+.form-floating>.form-select~label {
+  opacity: .65;
+  transform: scale(.85) translateY(-2rem) translateX(.15rem);
+}*/
+
 
 /*
 table tfoot{
@@ -59,3 +105,18 @@ table tfoot{
     border-bottom: 1px solid #000000;
 }
 */
+
+
+/* Borda do botão de seleção dos inputs */
+/* https://stackoverflow.com/questions/33696979/dropdown-button-in-input-group-btn-is-cut-off-on-right-border/33697982#33697982 */
+/* Classes: .btn.dropdown-toggle.dropdown-toggle-split */
+.botaoGrupoInput {
+/*  background-color: #eee;*/
+  border: 1px solid #dee2e6;
+}
+/*.botaoGrupoInput:hover, .botaoGrupoInput:focus {
+  border: 1px solid #6c757d;
+}*/
+
+
+
