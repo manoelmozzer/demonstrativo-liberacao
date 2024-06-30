@@ -3,6 +3,12 @@ function pdf(){
 
 pegarDados();
 
+// Salva as informações do servidor no localStorage
+// Verificar 'servidor.js'
+var dadosServidor = [servidor, cargo];
+storageServidor(dadosServidor);
+
+// Construir o pdf
 const doc = new jsPDF({
   // orientation: "landscape",
   // Tamanho A4
@@ -12,12 +18,25 @@ const doc = new jsPDF({
   unit: "mm",
 });
 
+// DICIONÁRIO DE TAMANHO DE FONTE
+// Valores testados para fonte e tamanho de linha:
+// setFontSize: 12; tamanho_linha = 5 // 0,5 cm
+// setFontSize: 13; tamanho_linha = 5.5 // 0,55 cm
+// setFontSize: 14; tamanho_linha = 6 // 0,6 cm
+
 // Padrão: helvetica
 // console.log(doc.getFont());
 doc.setFont("helvetica");
 // Padrão: 16
 // console.log(doc.getFontSize());
-doc.setFontSize(14);
+doc.setFontSize(13);
+
+// Controle de linhas
+tamanho_linha = 5.5 // 0,55 cm
+function linha(n) {
+  return margem_superior+(n*tamanho_linha);
+}
+var linha_atual = 0;
 
 // Parâmetro x para centralizar texto
 meio = (doc.internal.pageSize.width / 2);
@@ -28,20 +47,13 @@ margem_inferior = 20 // 2 cm
 margem_esquerda = 15 // 1,5 cm
 margem_direita = 15 // 1,5 cm
 
-// Controle de linhas
-tamanho_linha = 6 // 0,6 cm
-function linha(n) {
-  return margem_superior+(n*tamanho_linha);
-}
-var linha_atual = 0;
-
 // Cabeçalho
 doc.setFont("helvetica", "bold");
 cabecalho = [
   "2ª VARA DO TRABALHO DE PATO BRANCO",
   "Rua Paraná, nº 1.547 - Bairro Sambugaro",
   "85.801-090 - Pato Branco - PR",
-  "e-mail: vdt01pbc@trt9.jus.br"];
+  "e-mail: vdt02pbc@trt9.jus.br"];
 
 for (let i = 0; i < cabecalho.length; i++) {
   doc.text(cabecalho[i], meio, linha(i+1), "center");

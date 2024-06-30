@@ -9,15 +9,25 @@ executado = document.getElementById('executado');
   executado = executado.value;
 identificacao = [processo, exequente, executado];
 
+// Trata as entradas dos números
+// Entrada '1.300.500,50'. Saída: '1300500.50'
+function paraNumber(v) {
+  // Ajusta as pontuações de entrada
+  v = v.replace(/\./g, '');
+  v = v.replace(/,/, '.');
+  // Converte para float antes de passar para a biblioteca decimal
+  // Gera erro se não fizer a conversão
+  v = parseFloat(v);
+  // Envia para um decimal
+  return new Decimal(v);
+}
+
 // Saldo em conta judicial
 conta = document.getElementById('conta');
   conta = conta.value;
 saldo = document.getElementById('saldo');
   saldo = saldo.value;
-  // Converte para float antes de passar para script decimal
-  // Gera erro se não fizer a conversão
-  saldo = parseFloat(saldo);
-  saldo = new Decimal(saldo);
+  saldo = paraNumber(saldo);
 
 // Servidor e Cargo
 servidor = document.getElementById('servidor');
@@ -39,19 +49,14 @@ tabela = [];
 //// Construir arrays
 for (var r = 1, n = table.rows.length; r < n; r++) {
   for (var c = 2, m = table.rows[r].cells.length; c < m; c++) {
-    favorecido.push(table.rows[r].cells[1].children[0].value);
+    favorecido.push(table.rows[r].cells[1].children[0].children[2].value);
     valor.push(table.rows[r].cells[2].children[0].value);
   }
 }
 
 //// Converter array para número e decimais
-function toNumber(v) {
-  v = v.replace(/,/, '.');
-  v = parseFloat(v);
-  return new Decimal(v);
-}
-valor = valor.map(toNumber);
-
+// Envia map para funçao paraNumber();
+valor = valor.map(paraNumber);
 //// Somar os valores
 // valor_total = valor_total((a,b) => a + b, 0);
 valor_total = valor.reduce((a,b) => Decimal.add(a, b), 0);

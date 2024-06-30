@@ -10,34 +10,24 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <!-- jQuery UI -->
 <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.min.js" integrity="sha256-sw0iNNXmOJbQhYFuC9OF2kOlD5KQKe1y5lfBn4C9Sjg=" crossorigin="anonymous"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <!-- Bootstrap Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 <!-- jsPDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <!-- jsPDF AutoTable (https://github.com/simonbengtsson/jsPDF-AutoTable) -->
 <script src="https://unpkg.com/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.js"></script>
 
-<!-- Estilo -->
-<link rel="stylesheet" href="estilo.css">
-
-<!-- Código Reorder Table -->
-<!-- Reordena e deleta linhas da tambela -->
-<!-- https://bootsnipp.com/snippets/Pa5Wr -->
-<!-- https://web.archive.org/web/20240622232351/https://bootsnipp.com/snippets/Pa5Wr -->
-<!-- Precisa do Bootstrap CSS, jQuery e jQuery UI -->
-<script type="text/javascript" src="reorder.js"></script>
-<link rel="stylesheet" href="reorder.css">
-
-<!-- Gerar pdf -->
-<!-- Precisa do jsPDF e do jsPDF AutoTable -->
-<script type="text/javascript" src="pdf.js"></script>
-
-<!-- Capturar e processar os dados -->
-<script type="text/javascript" src="dados.js"></script>
+<!-- Iserir input mask -->
+<!-- Inputmask JS -->
+<script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.9/dist/inputmask.min.js"></script>
+<!-- Inputmask Biding JS: ativa o atributo html "data-inputmask" -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.9/dist/bindings/inputmask.binding.js"></script> -->
 
 <!-- Trabalhar com decimais -->
 <!-- https://stackoverflow.com/questions/1458633/how-can-i-deal-with-floating-point-number-precision-in-javascript/3439981#3439981 -->
@@ -46,113 +36,193 @@
 <!-- decimal.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/decimal.js/10.4.3/decimal.js" integrity="sha512-Hmns2PIpNb0z/FtWoAx9JskDz1z8ewb68AY6UWIHrLX46DlSDUyYo0nxfGJtUXQSHNWRKKs13c7jy2g3421abw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+<!-- Estilo -->
+<link rel="stylesheet" href="estilo.css">
+
+<!-- Modificar a tabela -->
+<!-- Adiciona, reordena e deleta linhas da tabela -->
+<!-- Precisa do Bootstrap CSS, jQuery e jQuery UI -->
+<script type="text/javascript" src="table.js"></script>
+<link rel="stylesheet" href="table.css">
+
+<!-- Gerar pdf -->
+<!-- Precisa do jsPDF e do jsPDF AutoTable -->
+<script type="text/javascript" src="pdf.js"></script>
+
+<!-- Capturar e processar os dados -->
+<!-- Precisa do decimal.js -->
+<script type="text/javascript" src="dados.js"></script>
+
+<!-- Selecionar nomes dos servidores -->
+<script type="text/javascript" src="servidor.js"></script>
+
+<!-- Copiar e colar do navegador -->
+<script type="text/javascript" src="regex.js"></script>
+
+<!-- Máscaras do input -->
+<script type="text/javascript" src="mask.js"></script>
+
+<!-- Modal -->
+<script type="text/javascript" src="modal.js"></script>
 
 
-  <script type="text/javascript">
-    // REGEX
-    function myFunction() {
-      const i = document.getElementById('registros');
-      console.log(i.value);
-      // document.getElementById('teste').value = i.value;
-      var minhaRegex = /d(b+)(d)/i;
-      var meuArray = minhaRegex.exec("cdbBdbsbz");
-      console.log(meuArray);
-      var minhaRegex = /[0-9].*,[0-9][0-9]/;
-      var meuArray = minhaRegex.exec(i.value);
-      console.log(meuArray);
-      t = i.value.toString()
-      t= t.split(/([0-9].*,[0-9][0-9])/);
-      console.log(t);
-      createTable(t);
-    }
+<!-- INFORMAÇÕES -->
+<!-- Inserir ou remover itens atualiza automaticamente a página -->
+<script>
+// Servidores e cargos pré-carregados
+// ["Label", "NOME COMPLETO", "Cargo"]
+// Label é útil em homônimos e para personalização. Deve ser único.
+var opcoesServTabela = [
+  ["Camila", "CAMILA STEFFENS", "Técnico Judiciário"],
+  ["Daniela", "DANIELA GOTTARDO", "Analista Judiciário"],
+  ["Luiz", "LUIZ ALFREDO SARTORI", "Analista Judiciário"],
+  ["Manoel", "MANOEL HORACIO MOZZER CAMARGO", "Técnico Judiciário"],
+  ["Maria", "MARIA DO CARMO BARBOSA LEITE", "Diretora de Secretaria"],
+]
 
-
-      // document.getElementById('teste').value = i.value;
-
-// REGEX COPIAR E COLAR
-      // var minhaRegex = /d(b+)(d)/i;
-      // var meuArray = minhaRegex.exec("cdbBdbsbz");
-      // console.log(meuArray);
-      // var minhaRegex = /[0-9].*,[0-9][0-9]/;
-      // var meuArray = minhaRegex.exec(i.value);
-      // console.log(meuArray);
-      // t = i.value.toString()
-      // t= t.split(/([0-9].*,[0-9][0-9])/);
-      // console.log(t);
-      // createTable(t);
-
-  </script>
-
-
-
-
+// Descrições comuns para selecionar da descrição do favorecido pré-carregadas
+var opcoesFavTabela = [
+  "LÍQUIDO DEVIDO AO EXEQUENTE",
+  "CONTRIBUIÇÕES PREVIDENCIÁRIAS",
+  "HONOR DE SUCUMBÊNCIA P/ ADV. EXEQUENTE",
+  "HONOR DE SUCUMBÊNCIA P/ ADV. EXECUTADO",
+  "HONORÁRIOS DE CALCULISTA",
+  "HONORÁRIOS PERICIAIS",
+  "CUSTAS JUDICIAIS",
+  "FGTS",
+  "RESTITUIÇÃO AO TRT 9",
+]
+</script>
 
 </head>
 
+
 <body>
 
-<div class="container">
-  <h1 class="mb-4 text-center">Demonstrativo de Liberação</h1>
+<script>
+// Limpar registros iniciais
+// Necessário no Firefox
+window.addEventListener("DOMContentLoaded", (event) => {// Aguarda o DOM carregar
+  document.getElementById('processo').value = ""
+  document.getElementById('exequente').value = ""
+  document.getElementById('executado').value = ""
+  document.getElementById('conta').value = ""
+  document.getElementById('saldo').value = ""
+})
+
+// Valores fáceis para debug
+// window.addEventListener("DOMContentLoaded", (event) => {// Aguarda o DOM carregar
+//   document.getElementById('processo').value = "0000402-87.2020.5.09.0072"
+//   document.getElementById('exequente').value = "JOÃO DA SILVA"
+//   document.getElementById('executado').value = "EMPRESA LIMITADA E OUTROS (2)"
+//   document.getElementById('conta').value = "01527551-2"
+//   document.getElementById('saldo').value = "168.647,67"
+//   addLine('LÍQUIDO DEVIDO AO RECLAMANTE', '73.684,66')
+//   addLine('CONTRIBUIÇÃO SOCIAL SOBRE SALÁRIOS DEVIDOS', '8.750,17')
+//   addLine('IRPF SOBRE HONORÁRIOS', '9,74')
+//   addLine('CUSTAS JUDICIAIS', '1.159,60')
+//   reaplicarMaskDinheiro()
+// })
+</script>
+
+
+<!-- Navbar -->
+<nav class="navbar navbar-light bg-light fixed-top navbar-expand mb-4">
+  <div class="container">
+    <a class="navbar-brand fs-4 w-auto">Demonstrativo de Liberação</a>
+    <form class="d-flex w-50"><!--Aumentar um pouco o colar conteúdo se for necessário -->
+      <div class="input-group">
+      <input class="form-control" id="campoColar" type="text" placeholder="Cole ou arraste o conteúdo aqui..." oninput="limparEntrada(this)" onfocusout="focoFora(this)">
+        <button class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split botaoGrupoInput" data-bs-toggle="dropdown"><span class="visually-hidden">Servidor</span></button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><h6 class="dropdown-header">Servidores</h6></li>
+          <span id="selecionarServidores">
+            <!-- Linha para debug -->
+            <!-- <li><button class="dropdown-item" type="button" onclick="addServidor(this)">Manoel</button></li> -->
+            <script>
+              // Contruído em servidor.js
+              listarServidores();
+            </script>
+          </span>
+          <li><hr class="dropdown-divider"></li>
+          <li><button class="dropdown-item" type="button">Ajuda</button></li>
+        </ul>
+      </div>
+    </form>
+  </div>
+</nav>
+
+
+<!-- Formulário -->
+<div class="container margemSuperior">
+  <div class="row">
+    <div class="col">
+      <div class="form-floating mb-2">
+        <input id="processo" class="form-control" type="text" placeholder=" " >
+        <!-- placeholder=" ": Se o placeholder for vazio o label não desce ao sair do campo limpo com mask. Precisa ter um espaço. -->
+        <label for="floatingInput">Processo</label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col pe-1">
+      <div class="form-floating mb-2">
+        <input id="exequente" class="form-control" type="text" placeholder="">
+        <label for="floatingInput">Exequente</label>
+      </div>
+    </div>
+    <div class="col ps-1">
+      <div class="form-floating mb-2">
+        <input id="executado" class="form-control" type="text" placeholder="">
+        <label for="floatingInput">Executado</label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col pe-1">
+      <div class="form-floating mb-2">
+        <input id="servidor" class="form-control" type="text" placeholder="">
+        <label for="floatingInput">Servidor</label>
+      </div>
+    </div>
+    <div class="col ps-1">
+      <div class="form-floating mb-2">
+        <input id="cargo" class="form-control" type="text" placeholder="">
+        <label for="floatingInput">Cargo</label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col pe-1">
+      <div class="form-floating mb-2">
+        <input id="conta" class="form-control" type="text" placeholder=" " >
+        <label for="floatingInput">Conta Judicial</label>
+      </div>
+    </div>
+    <div class="col ps-1">
+      <div class="form-floating mb-2">
+        <input id="saldo" class="form-control text-end maskDinheiro" type="text" placeholder=" " inputmode="numeric">
+        <label for="floatingInput">Saldo em Conta</label>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="container">
-  <div class="input-group mb-2">
-    <span class="input-group-text">Processo</span>
-    <!-- <input id="processo" class="form-control" type="text" placeholder="000123.00-2020.5.09.0125"> -->
-    <input id="processo" class="form-control" type="text">
-  </div>
-<!--   <div class="form-floating mb-2">
-    <input id="processo" class="form-control" type="text" placeholder="">
-    <label for="floatingInput">Processo</label>
-  </div> -->
-  <div class="input-group mb-2">
-    <span class="input-group-text">Exequente</span>
-    <input id="exequente" class="form-control" type="text">
-  </div>
-  <div class="input-group mb-2">
-    <span class="input-group-text">Executado</span>
-    <input id="executado" class="form-control" type="text">
-  </div>
-  <div class="input-group mb-2">
-    <span class="input-group-text">Conta Judicial</span>
-    <input id="conta" class="form-control" type="text">
-  </div>
-  <div class="input-group mb-2">
-    <span class="input-group-text">Saldo em Conta</span>
-    <input id="saldo" class="form-control" type="number">
-  </div>
-<!--   <div class="input-group mb-2">
-    <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">Servidor</button>
-    <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="#">DANIELA GOTTARDO</a></li>
-      <li><a class="dropdown-item" href="#">MANOEL HORACIO MOZZER CAMARGO</a></li>
-      <li><a class="dropdown-item" href="#">Something else here</a></li>
-      <li><a class="dropdown-item" href="#">Separated link</a></li>
-    </ul>
-    <input id="servidor" class="form-control" type="text">
-  </div> -->
-  <div class="input-group mb-2">
-    <span class="input-group-text">Servidor</span>
-    <input id="servidor" class="form-control" type="text">
-  </div>
-  <div class="input-group mb-2">
-    <span class="input-group-text">Cargo</span>
-    <input id="cargo" class="form-control" type="text">
-  </div>
-</div>
 
-
+<!-- Tabela  -->
 <div class="container">
-<table class="table table-sm" id="table">
+<table class="table table-sm table-borderless" id="table">
   <thead>
-    <tr>
+    <tr class="mb-4">
       <th scope="col" class="col" style="width: 1px"></th>
       <th scope="col" class="col">Favorecido</th>
-      <th scope="col" class="col" style="width: 140px">Valor</th>
+      <th scope="col" class="col pe-2" style="width: 131px; text-align: right;">Valor</th>
+      <!-- <th scope="col" class="col pe-2" style="width: 140px; text-align: right;">Total: R$ xx.xxx.xxx,xx</th> -->
     </tr>
   </thead>
   <tbody>
-    <!-- Linha para debug -->
+
+    <!-- Linha para debug sem botão dropdown-->
     <!-- Cédula dos botões tem espaço indesejado na quebra de linha do código. Formato é útil para debug -->
 <!--     <tr>
       <td class="botoes">
@@ -160,27 +230,43 @@
         <span><button class="btn reordenar btn-lg p-0 px-1"><i class="bi bi-arrows-vertical"></i></button></span>
       </td>
       <td><input value="A" class="form-control"></td>
-      <td><input value="320,00" class="form-control text-end"></td>
+      <td><input value="320,00" class="form-control maskDinheiro text-end"></td>
     </tr> -->
+
+    <!-- Linha para debug com botão dropdown -->
+<!--     <tr>
+      <td class="botoes">
+        <button class="btn btn-delete btn-outline-danger btn-lg p-0 px-2"><i class="bi bi-trash"></i></button>
+        <span><button class="btn reordenar btn-lg p-0 px-1"><i class="bi bi-arrows-vertical"></i></button></span>
+      </td>
+      <td>
+      <div class="input-group">
+        <button class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split botaoGrupoInput" data-bs-toggle="dropdown"><span class="visually-hidden">Opções</span></button>
+        <ul class="dropdown-menu">
+          <li><button class="dropdown-item" type="button" onclick="addServidor(this)">LÍQUIDO DEVIDO AO EXEQUENTE</button></li>
+          <li><button class="dropdown-item" type="button" onclick="addServidor(this)">CONTRIBUIÇÕES PREVIDENCIÁRIAS</button></li>
+        </ul>
+        <input class="form-control" value="A">
+      </td>
+      </div>
+      <td><input value="320,00" class="form-control maskDinheiro text-end"></td>
+    </tr> -->
+
     <script>
-      addLine("LÍQUIDO DEVIDO AO EXEQUENTE");
-      addLine("CONTRIBUIÇÕES PREVIDENCIÁRIAS");
-      addLine("HONOR DE SUCUMBÊNCIA P/ ADV. EXEQUENTE");
-      addLine("HONOR DE SUCUMBÊNCIA P/ ADV. EXECUTADO");
-      addLine("HONORÁRIOS DE CALCULISTA");
-      addLine("HONORÁRIOS PERICIAIS");
-      addLine("HONORÁRIOS PERICIAIS");
-      addLine("CUSTAS JUDICIAIS");
-      addLine("FGTS");
-      addLine("RESTITUIÇÃO AO TRT 9");
+      // Contruído em table.js
+      addLine("LÍQUIDO DEVIDO AO EXEQUENTE", "0,00");
+      // addLine("CONTRIBUIÇÕES PREVIDENCIÁRIAS");
     </script>
+
   </tbody>
 </table>
 
+
+<!-- Botões -->
 <div class="row justify-content-between mb-2">
   <div class="col-auto">
-    <button class="btn btn-primary adicionar p-0 px-1" onclick = addLine()><i class="bi bi-plus"></i></button>
-    <button class="btn btn-secondary disabled">Colar da Planilha/Recolher/Inserir</button>
+    <button class="btn btn-primary adicionar p-0 px-1" onclick="addLine();reaplicarMaskDinheiro();"><i class="bi bi-plus"></i></button>
+    <button class="btn btn-secondary" disabled data-bs-toggle="modal" data-bs-target="#pasteModal" data-bs-tipo="planilhaCalculo">Autotexto</button>
   </div>
   <div class="col-auto">
     <button class="btn btn-success" onclick=pdf()><i class="bi bi-filetype-pdf"></i> Gerar PDF</button>
@@ -189,7 +275,32 @@
 
 </div>
 
+
 <!-- <input type = button value = "dados" onclick = pegarDados()> -->
+
+<!-- Modal -->
+<div class="modal fade" id="pasteModal" tabindex="-1" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Colar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control font-monospace lh-sm" id="exampleFormControlTextarea1" rows="9"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Limpar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-primary" id="enviar" onclick="">Enviar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  carregarModals();
+</script>
 
 </body>
 </html>
