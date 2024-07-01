@@ -11,7 +11,7 @@ identificacao = [processo, exequente, executado];
 
 // Trata as entradas dos números
 // Entrada '1.300.500,50'. Saída: '1300500.50'
-function paraNumber(v) {
+function toNumberDecimal(v) {
   // Ajusta as pontuações de entrada
   v = v.replace(/\./g, '');
   v = v.replace(/,/, '.');
@@ -27,7 +27,7 @@ conta = document.getElementById('conta');
   conta = conta.value;
 saldo = document.getElementById('saldo');
   saldo = saldo.value;
-  saldo = paraNumber(saldo);
+  saldo = toNumberDecimal(saldo);
 
 // Servidor e Cargo
 servidor = document.getElementById('servidor');
@@ -55,36 +55,57 @@ for (var r = 1, n = table.rows.length; r < n; r++) {
 }
 
 //// Converter array para número e decimais
-// Envia map para funçao paraNumber();
-valor = valor.map(paraNumber);
+// Envia map para funçao toNumberDecimal();
+valor = valor.map(toNumberDecimal);
 //// Somar os valores
 // valor_total = valor_total((a,b) => a + b, 0);
 valor_total = valor.reduce((a,b) => Decimal.add(a, b), 0);
 
-//// Cálculos
+// CÁLCULOS
+// Cria a variável resto para alocar as sobras
 var resto = new Decimal(0.00);
-for (i=0; i<valor.length; i++) {
-  // Percentual
-  // percentagem.push(valor[i]/valor_total);
-  percentagem.push(Decimal.div(valor[i],valor_total));// valor[i] / valor_total
-  // Distribuição
-  //// Somente valor correto
-  divisao = Decimal.mul(saldo, percentagem[i]);// saldo * percentagem[i]
-  divisao_trunc = divisao.mul(100).trunc().div(100)// Math.trunc(divisao *100) / 100
-  resto = resto.add(divisao.sub(divisao_trunc));// resto + ((saldo*percentagem[i]) - divisao_trunc)
-  valor_liberado.push(divisao_trunc);
-}
 
-//// Distribuição dos centavos restantes (espúrios)
-if (resto !== 0) {
-  // Arrendonda o resto: integra as mili frações perdidas nas últimas casas decimais
-  resto = resto.mul(100).round().div(100);// Math.round(resto * 100) / 100;
-  i = 0;
-  while (resto > 0.00 ) {
-    valor_liberado[i] = valor_liberado[i].add(0.01);// valor_liberado[i] + 0.01;
-    resto = resto.sub(0.01);// resto -= 0.01;
-    i++
+// Verifica se o total dos valores da tabela é igual saldo da conta
+if ( valor_total.toString() == saldo.toString() ) {
+
+  // Se for, distribui exatamente conforme a entrada
+  // Evita bug do centavo espúrio ser distribuído para outra linha
+  // Ex: 0000324-60.2022.5.09.0125 (demonstrativo liberação 01.jul.2024)
+  for (i=0; i<valor.length; i++) {
+    // Percentual
+    percentagem.push(Decimal.div(valor[i],valor_total));// valor[i] / valor_total
+    // Distribuição
+    valor_liberado.push(valor[i]);
   }
+
+} else {
+
+  // Se não for, distribui conforme a propocionalidade
+  for (i=0; i<valor.length; i++) {
+    // Percentual
+    // percentagem.push(valor[i]/valor_total);
+    percentagem.push(Decimal.div(valor[i],valor_total));// valor[i] / valor_total
+    // Distribuição
+    //// Somente valor correto
+    divisao = Decimal.mul(saldo, percentagem[i]);// saldo * percentagem[i]
+    divisao_trunc = divisao.mul(100).trunc().div(100)// Math.trunc(divisao *100) / 100
+    // Aloca sobras do trunc
+    resto = resto.add(divisao.sub(divisao_trunc));// resto + ((saldo*percentagem[i]) - divisao_trunc)
+    valor_liberado.push(divisao_trunc);
+  }
+
+  //// Distribuição dos centavos restantes (espúrios)
+  if (resto !== 0) {
+    // Arrendonda o resto: integra as mili frações perdidas nas últimas casas decimais
+    resto = resto.mul(100).round().div(100);// Math.round(resto * 100) / 100;
+    i = 0;
+    while (resto > 0.00 ) {
+      valor_liberado[i] = valor_liberado[i].add(0.01);// valor_liberado[i] + 0.01;
+      resto = resto.sub(0.01);// resto -= 0.01;
+      i++
+    }
+  }
+
 }
 
 //// Valores totais
