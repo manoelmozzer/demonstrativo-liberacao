@@ -33,6 +33,8 @@ $(document).ready(function() {
     //   }
     $(this).closest('tr').remove();
     renumber_table(tableID);
+    // Atualiza o valor total da tabela se o último parâmetro for verdadeiro
+    atualizaValores();
   });
 
 });
@@ -99,28 +101,32 @@ function addLine(fav_value, val_value) {
   // r: Linha
   // r.classList.add("ui-sortable-handle");
 
-  // c1: Coluna 1: botões
-  c1.classList.add("botoes");
+  // c1: Coluna 1: Botões
+  c1.classList.add("col-botoes");
     // Botão lixeira
     var button_del = document.createElement("button");
-    button_del.classList.add("btn", "btn-delete", "btn-outline-danger", "btn-lg", "p-0", "px-2");
+    button_del.classList.add("btn", "btn-delete", "btn-outline-danger", "btn-lg", "pe-1", "me-1");
       // Ícone da lixeira
       var icon_del = document.createElement("i");
-      icon_del.classList.add("bi", "bi-trash");
+      icon_del.classList.add("bi", "bi-trash", "i-delete");
       button_del.appendChild(icon_del);// Adicionar no botão
+    // Botão selecionar
+    var div_selec = document.createElement("div");
+    div_selec.classList.add("form-check-inline", "m-0", "mx-1", "div-selecao");
+      // Input do selecionar
+      var input_selec = document.createElement("input");
+      input_selec.classList.add("form-check-input", "m-0", "btn-selecao");
+      input_selec.setAttribute("type","checkbox");
+      input_selec.onclick = function() { selResiduo(this) };
+      div_selec.appendChild(input_selec);
     // Botão reordenar
-    var span_reorder = document.createElement("span");
-    var button_reorder = document.createElement("button");
-    button_reorder.classList.add("btn", "reordenar", "btn-lg", "p-0", "px-1");
-    button_reorder.tabIndex = "-1"// Não fica selecionável com tab
-    span_reorder.appendChild(button_reorder);// Colocar o botão ao redor de <span>
-      // Ícone do reordenar
-      var icon_reorder = document.createElement("i");
-      icon_reorder.classList.add("bi", "bi-arrows-vertical");
-      button_reorder.appendChild(icon_reorder);// Adicionar no botão
+    var icon_reorder = document.createElement("i");
+    icon_reorder.classList.add("bi", "bi-arrows-vertical", "fs-5", "ms-1", "reordenar");
+    icon_reorder.tabIndex = "-1"// Não fica selecionável com tab
   // Adicionar elementos
   c1.appendChild(button_del);
-  c1.appendChild(span_reorder);
+  c1.appendChild(div_selec);
+  c1.appendChild(icon_reorder);
 
   // c2: Coluna 2: Favorecido
   // Div de input group
@@ -174,31 +180,24 @@ function addLine(fav_value, val_value) {
   // c3: Coluna 3: Valor
   var input_val = document.createElement("input");
   input_val.classList.add("form-control", "maskDinheiro", "text-end");
+  input_val.oninput = function() { atualizaValores() };
   input_val.id = "val-" + counter;
   // input_val.value = "100,00";
   input_val.value = val_value;
   c3.appendChild(input_val);
 
+  // Atualiza e redistribui os valores da tabela
+  atualizaValores();
+
 }
 
-
-// Modelo da tabela (sem botão dropdown)
+// Modelo da tabela (com botão input-dropdown e selecionar)
 // Cédula dos botões tem espaço indesejado na quebra de linha do código. Formato é útil para debug
 // <tr>
-//   <td class="botoes">
-//     <button class="btn btn-delete btn-outline-danger btn-lg p-0 px-2"><i class="bi bi-trash"></i></button>
-//     <span><button class="btn reordenar btn-lg p-0 px-1"><i class="bi bi-arrows-vertical"></i></button></span>
-//   </td>
-//   <td><input value="A" class="form-control"></td>
-//   <td><input value="320,00" class="form-control maskDinheiro text-end"></td>
-// </tr>
-
-// Modelo da tabela (com botão dropdown)
-// Cédula dos botões tem espaço indesejado na quebra de linha do código. Formato é útil para debug
-// <tr>
-//   <td class="botoes">
-//     <button class="btn btn-delete btn-outline-danger btn-lg p-0 px-2"><i class="bi bi-trash"></i></button>
-//     <span><button class="btn reordenar btn-lg p-0 px-1"><i class="bi bi-arrows-vertical"></i></button></span>
+//   <td class="col-botoes">
+//     <button class="btn btn-delete btn-outline-danger btn-lg pe-1 me-1"><i class="bi bi-trash i-delete"></i></button>
+//     <div class="form-check-inline m-0 mx-1 div-selecao"><input class="form-check-input m-0 btn-selecao" type="checkbox" onclick="selecResiduo(this)"></div>
+//     <i class="bi bi-arrows-vertical fs-5 ms-1 reordenar"></i>
 //   </td>
 //   <td>
 //   <div class="input-group">
@@ -210,6 +209,24 @@ function addLine(fav_value, val_value) {
 //     <input class="form-control" value="A">
 //   </td>
 //   </div>
-//   <td><input value="320,00" class="form-control maskDinheiro text-end"></td>
+//   <td><input value="320,00" class="form-control maskDinheiro text-end" oninput="atualizaValores()"></td>
 // </tr>
 
+// OBS.: Optado pelo 'checkbox' ao invés do 'toggle' para a seleção
+// O comportamento desejado não é ativação/desativação, mas seleção das linhas com resíduo
+// Seleção supõe o mesmo comportamento. Toggle comportamentos diferentes (ex.: configurações mobile)
+// https://www.cssscript.com/flexible-toggle-switches-bootstrap-toggle-css/
+// https://palcarazm.github.io/bootstrap5-toggle/
+// https://github.com/palcarazm/bootstrap5-toggle
+
+
+// Modelo da tabela (v.1)
+// Cédula dos botões tem espaço indesejado na quebra de linha do código. Formato é útil para debug
+// <tr>
+//   <td class="botoes">
+//     <button class="btn btn-delete btn-outline-danger btn-lg p-0 px-2"><i class="bi bi-trash"></i></button>
+//     <span><button class="btn reordenar btn-lg p-0 px-1"><i class="bi bi-arrows-vertical"></i></button></span>
+//   </td>
+//   <td><input value="A" class="form-control"></td>
+//   <td><input value="320,00" class="form-control maskDinheiro text-end"></td>
+// </tr>

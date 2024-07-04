@@ -172,6 +172,9 @@ function regexContaSaldo(s) {
     document.getElementById('saldo').value = capturaSaldo[1]
   }
 
+  // Atualiza os valores da tabela (residuo.js)
+  atualizaValores();
+
 }
 
 
@@ -219,13 +222,12 @@ function regexCalculo(s) {
   if ( capturaCalculo.length % 2 != 0 ) {
     capturaCalculo.push("")
   }
-  console.log(capturaCalculo)
   // Corrige o formato dos textos dos elementos
   capturaCalculo = capturaCalculo.map((x) => {
     x = x.replace("\r","").replace("\n","").trim()
     return x
   })
-  //Insere os valores nos campos
+  // Insere os valores nos campos
   if ( capturaCalculo !== null ) {// Assegura que o valor não seja vazio
     for (i=0; i<(capturaCalculo.length/2); i++) {
       addLine(capturaCalculo[2*i],capturaCalculo[(2*i)+1]);
@@ -236,3 +238,20 @@ function regexCalculo(s) {
 
 
 }
+
+
+// ACESSAR O CONTEÚDO COPIADO DO USUÁRIO AUTOMATICAMENTE
+// 
+// https://stackoverflow.com/questions/50633601/is-it-possible-to-paste-from-clipboard-onclick-in-javascript
+// Precisa de permissão do usuário
+// Só funciona no Chrome
+// Firefox demanda que o usuário altere configurações (editáveis no computador do Tribunal)
+// -> dom.events.testing.asyncClipboard
+// -> dom.events.asyncClipboard.readText
+// https://stackoverflow.com/questions/67440036/navigator-clipboard-readtext-is-not-working-in-firefox
+// 
+// Link: https://jsfiddle.net/zm490d6a/
+// async function paste(input) {
+//   const text = await navigator.clipboard.readText();
+//   input.value = text;
+// }

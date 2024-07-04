@@ -1,14 +1,3 @@
-function pegarDados() {
-
-// Identificação
-processo = document.getElementById('processo');
-  processo = processo.value;
-exequente = document.getElementById('exequente');
-  exequente = exequente.value;
-executado = document.getElementById('executado');
-  executado = executado.value;
-identificacao = [processo, exequente, executado];
-
 // Trata as entradas dos números
 // Entrada '1.300.500,50'. Saída: '1300500.50'
 function toNumberDecimal(v) {
@@ -21,6 +10,18 @@ function toNumberDecimal(v) {
   // Envia para um decimal
   return new Decimal(v);
 }
+
+
+function pegarDadosPDF() {
+
+// Identificação
+processo = document.getElementById('processo');
+  processo = processo.value;
+exequente = document.getElementById('exequente');
+  exequente = exequente.value;
+executado = document.getElementById('executado');
+  executado = executado.value;
+identificacao = [processo, exequente, executado];
 
 // Saldo em conta judicial
 conta = document.getElementById('conta');
@@ -47,11 +48,12 @@ percentagem_total = [];
 tabela = [];
 
 //// Construir arrays
-for (var r = 1, n = table.rows.length; r < n; r++) {
-  for (var c = 2, m = table.rows[r].cells.length; c < m; c++) {
+for (var r = 1, n = table.rows.length-1; r < n; r++) {
+// n: diminui 1 para descontar o rodarpé da tabela
+  // for (var c = 2, m = table.rows[r].cells.length; c < m; c++) {
     favorecido.push(table.rows[r].cells[1].children[0].children[2].value);
     valor.push(table.rows[r].cells[2].children[0].value);
-  }
+  // }
 }
 
 //// Converter array para número e decimais
@@ -138,3 +140,4 @@ for (i=0; i<valor.length; i++) {
 }
 
 }
+
