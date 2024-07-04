@@ -52,16 +52,3 @@ function carregarModals() {
 function planilhaCalculo_regex() {
   console.log("estou aqui, dentro do regex")
 }
-
-// ACESSAR O CONTEÚDO COPIADO DO USUÁRIO
-// 
-// https://stackoverflow.com/questions/50633601/is-it-possible-to-paste-from-clipboard-onclick-in-javascript
-// Precisa de permissão do usuário
-// Só funciona no Chrome
-// Firefox demanda usuário altere configurações
-// https://stackoverflow.com/questions/67440036/navigator-clipboard-readtext-is-not-working-in-firefox
-// 
-// async function paste(input) {
-//   const text = await navigator.clipboard.readText();
-//   input.value = text;
-// }

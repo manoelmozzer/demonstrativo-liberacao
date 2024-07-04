@@ -1,7 +1,7 @@
 function pdf(){
   window.jsPDF = window.jspdf.jsPDF; // add this line of code
 
-pegarDados();
+pegarDadosPDF();
 
 // Salva as informações do servidor no localStorage
 // Verificar 'servidor.js'

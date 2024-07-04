@@ -1,69 +1,7 @@
 body{
-  margin: 5mm 5mm 5mm 5mm;
+  margin-top: 5mm;
+  margin-bottom: 5mm;
 }
-
-/* Linha cabeçalho da tabela */
-table thead{
-  /* border-bottom: 1px solid #000000;*/
-  border-bottom: 1px solid #dee2e6;
-}
-
-/* Espaço após a linha do cabeçalho */
-/* table tbody after deve solucionar a linha inferior */
-/* https://stackoverflow.com/questions/14735569/css-double-border-2-colors-without-using-outline/14735816#14735816 */
-table tbody:before{
-  content: "";
-  display: block;
-  /* Debug */
-  /* border-bottom: 4px solid #36F; */
-   border-bottom: 4px solid transparent;
-}
-
-td.botoes{
-  /*text-align:center; */
-  vertical-align:middle;
-  white-space: nowrap;
-  width: 15px !important;
-}
-
-/* Botão Deletar */
-.btn-outline-danger {
-  border: 0;
-}
-
-/* Botão Reordenar */
-button.reordenar {
-  pointer-events: none;
-}
-span:hover button.reordenar {
-  color: #0d6efd !important;
-}
-/*.ui-sortable tr:active button.reordenar {
-    color: #0d6efd !important;
-}*/
-
-/* Botão Adicionar */
-button.adicionar {
-  font-size: 1.5rem;
-}
-
-
-/* Remover flechas do input number */
-/* https://www.w3schools.com/howto/howto_css_hide_arrow_number.asp */
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
-
-/* Tabela no estilo excel */
-/*td input {border: 0 !important; border-radius: 0 !important; min-height: 100%;}
-td {margin: 0 !important; padding: 0 !important;}*/
 
 /* Espaço do começo do conteúdo: adicionar tamanho da nav-bar */
 /* https://stackoverflow.com/questions/71422815/fixed-navbar-hiding-page-content/71423032#71423032 */
@@ -71,6 +9,123 @@ td {margin: 0 !important; padding: 0 !important;}*/
 /*  margin-top: 8px;*/
   padding-top: 62px;
 }
+
+/* TABELA */
+
+/* Linha do cabeçalho da tabela */
+table thead{
+  /* border-bottom: 1px solid #000000;*/
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Espaço após a linha do cabeçalho */
+/* https://stackoverflow.com/questions/14735569/css-double-border-2-colors-without-using-outline/14735816#14735816 */
+table tbody:before{
+  content: "";
+  display: block;
+  /* Debug */
+  /* border-bottom: 4px solid #36F; */
+  border-bottom: 4px solid transparent;
+}
+
+/* Linha do rodapé da tabela */
+table tfoot{
+  border-top: 1px solid #dee2e6 !important;
+  /* border-bottom: 1px solid #000000; */
+}
+
+/* Espaço antes da linha do rodapé */
+table tbody:after{
+  content: "";
+  display: block;
+  /* Debug */
+  /* border-bottom: 4px solid #36F; */
+  border-bottom: 4px solid transparent;
+}
+
+
+/* Estilo do Reoder Table (table.js) */
+/* https://bootsnipp.com/snippets/Pa5Wr */
+.ui-sortable tr {
+/*  cursor: pointer;*/
+/*  cursor: ns-resize;*/
+  cursor: grab;
+}
+.ui-sortable tr:active {
+  cursor: grabbing;
+}
+.ui-sortable tr:hover {
+  /* background:rgba(244,251,17,0.45);*/
+  background:rgba(108, 117, 125, 0.4);
+}
+
+/* Coluna dos botões na tabela */
+.col-botoes {
+  width: 90px;
+  text-align:center;
+  vertical-align:middle;
+  white-space: nowrap;
+}
+
+/* Coluna valor */
+.col-valor {
+  width: 131px;
+  text-align: right;
+}
+
+/* Botão Deletar */
+.btn-outline-danger {
+  /* Modificado da classe original */
+  border: 0;
+}
+.btn-delete {
+  /* Classe usada pelo script 'table.js' para deletar */
+  /* Ajustar a centralização do ícone no botão */
+  /* Tamanhos diferentes pois o desenho do ícone não é centralizado */
+  padding-top: 6px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+}
+.i-delete {
+  display: flex;
+}
+
+/* Botão Selecionar */
+.btn-selecao {
+  cursor: pointer;
+  /* border: 2px solid #6c757d;*/
+  border: 1px solid #212529;
+  width: 16px;
+  height: 16px;
+}
+.div-selecao {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+/* Botão Reordenar */
+.reordenar {
+/*  pointer-events: none;*/
+  vertical-align: middle;
+  display: inline-flex;
+/*  border: 1px solid red;*/
+}
+.reordenar:hover {
+  color: #0d6efd !important;
+}
+/*.ui-sortable tr:active .reordenar {
+  color: #0d6efd !important;
+}*/
+
+/* Botão Adicionar */
+button.adicionar {
+  font-size: 1.5rem;
+}
+
+/* Tabela no estilo excel */
+/*td input {border: 0 !important; border-radius: 0 !important; min-height: 100%;}
+td {margin: 0 !important; padding: 0 !important;}*/
+
 
 /* LABEL DO INPUT */
 
@@ -97,15 +152,6 @@ td {margin: 0 !important; padding: 0 !important;}*/
   opacity: .65;
   transform: scale(.85) translateY(-2rem) translateX(.15rem);
 }*/
-
-
-/*
-table tfoot{
-    border-top: 1px solid #000000;
-    border-bottom: 1px solid #000000;
-}
-*/
-
 
 /* Borda do botão de seleção dos inputs */
 /* https://stackoverflow.com/questions/33696979/dropdown-button-in-input-group-btn-is-cut-off-on-right-border/33697982#33697982 */
