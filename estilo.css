@@ -164,5 +164,28 @@ td {margin: 0 !important; padding: 0 !important;}*/
   border: 1px solid #6c757d;
 }*/
 
+/* Inputs dos números */
+.input-numero {
+  /* Adiciona espaçamento entre números: interfere no placeholder (usado no DEJT e no CNIB) */
+  letter-spacing: 0.05em;
+}
 
+/* AUXILIAR DE MINUTA */
+
+/* Tabela: Célula cabeçalho valor */
+.col-modal-valor {
+  text-align: right;
+}
+/* Tabela: Célula cabeçalho tipo */
+.col-sel-tipo {
+  text-align: center;
+}
+/* Tabela: Coluna inteira de valores */
+#minuta-table tr td:nth-child(2) {
+  text-align: right;
+}
+/* Ícone copiar */
+.copiar-icon {
+  cursor: pointer;
+}
 

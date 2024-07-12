@@ -184,6 +184,14 @@ function addLine(fav_value, val_value) {
   input_val.id = "val-" + counter;
   // input_val.value = "100,00";
   input_val.value = val_value;
+  // Adiciona tooltips
+  new bootstrap.Tooltip(input_val, {
+    placement: 'left',
+    html: true,
+    title: '<p class="m-0 p-0">Resíduo Distribuído</p>',
+    trigger: 'manual',
+  });
+
   c3.appendChild(input_val);
 
   // Atualiza e redistribui os valores da tabela
@@ -196,7 +204,7 @@ function addLine(fav_value, val_value) {
 // <tr>
 //   <td class="col-botoes">
 //     <button class="btn btn-delete btn-outline-danger btn-lg pe-1 me-1"><i class="bi bi-trash i-delete"></i></button>
-//     <div class="form-check-inline m-0 mx-1 div-selecao"><input class="form-check-input m-0 btn-selecao" type="checkbox" onclick="selecResiduo(this)"></div>
+//     <div class="form-check-inline m-0 mx-1 div-selecao"><input class="form-check-input m-0 btn-selecao" type="checkbox" onclick="selResiduo(this)"></div>
 //     <i class="bi bi-arrows-vertical fs-5 ms-1 reordenar"></i>
 //   </td>
 //   <td>
@@ -209,7 +217,7 @@ function addLine(fav_value, val_value) {
 //     <input class="form-control" value="A">
 //   </td>
 //   </div>
-//   <td><input value="320,00" class="form-control maskDinheiro text-end" oninput="atualizaValores()"></td>
+//   <td><input value="320,00" class="form-control maskDinheiro text-end" oninput="atualizaValores();" data-bs-toggle="tooltip" data-bs-trigger="manual" data-bs-placement="left" data-bs-html="true" data-bs-title="<p class='m-0 p-0'>Resíduo Distribuído</p>"></td>
 // </tr>
 
 // OBS.: Optado pelo 'checkbox' ao invés do 'toggle' para a seleção
