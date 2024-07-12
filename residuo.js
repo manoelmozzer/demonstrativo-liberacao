@@ -12,6 +12,16 @@ function selResiduo(checkbox) {
     // Insere os bloqueios de edição
     input_valor.setAttribute("disabled", "");
     input_valor.setAttribute("readonly", "");
+    // Ativa o tooltip
+    // Função individualiza cada entrada: impede que haja interferência na ativação de diferentes tooltips
+    function tooltip(input_valor) {
+      var tooltip_input = bootstrap.Tooltip.getInstance(input_valor);
+      tooltip_input.show();
+      setTimeout(function() {// Desativa após o tempo
+        tooltip_input.hide();
+      }, 1500);
+    }
+    tooltip(input_valor);
     // Chama a função para distribuir o valor residual
     distribuirResiduo();
   }
@@ -23,6 +33,13 @@ function selResiduo(checkbox) {
     input_valor.removeAttribute("readonly");
     // Deixa o valor vazio
     input_valor.value = "";
+    // Desativa o tooltip
+    function tooltip(input_valor) {
+      var tooltip_input = bootstrap.Tooltip.getInstance(input_valor);
+      tooltip_input.hide();
+    }
+    tooltip(input_valor);
+    // Chama a função para distribuir o valor residual
     distribuirResiduo();
   }
 }

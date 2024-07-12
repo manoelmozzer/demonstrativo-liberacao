@@ -11,6 +11,16 @@ function toNumberDecimal(v) {
   return new Decimal(v);
 }
 
+// Formatação
+function formatarDinheiro(v) {
+  // return new Intl.NumberFormat('pt-br', {minimumFractionDigits: 2, maximumFractionDigits: 2,}).format(v);
+  return new Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL', minimumFractionDigits: 2, maximumFractionDigits: 2,}).format(v);
+}
+function formatarPercentagem(v) {
+  return Number(v).toLocaleString('pt-br',{style: 'percent', minimumFractionDigits:6});
+}
+
+// :TODO: Quebrar em funções menores com 'return': Envia para variáveis específicas quando necessário
 
 function pegarDadosPDF() {
 
@@ -56,6 +66,8 @@ for (var r = 1, n = table.rows.length-1; r < n; r++) {
   // }
 }
 
+//// Coloca os favorecidos em letra maiúscula
+favorecido = favorecido.map(function(x){ return x.toUpperCase() });
 //// Converter array para número e decimais
 // Envia map para funçao toNumberDecimal();
 valor = valor.map(toNumberDecimal);
@@ -120,17 +132,11 @@ if (saldo.toString() != valor_total_liberado.toString() || resto.toString() != 0
 }// else {console.log('OK')}
 
 //// Formatação
-function formatarDinheiro(v) {
-  // return new Intl.NumberFormat('pt-br', {minimumFractionDigits: 2, maximumFractionDigits: 2,}).format(v);
-  return new Intl.NumberFormat('pt-br', {style: 'currency', currency: 'BRL', minimumFractionDigits: 2, maximumFractionDigits: 2,}).format(v);
-}
+// Dinheiro
 valor_liberado = valor_liberado.map(formatarDinheiro);
 valor_total_liberado = formatarDinheiro(valor_total_liberado);
 saldo = formatarDinheiro(saldo);
-
-function formatarPercentagem(v) {
-  return Number(v).toLocaleString('pt-br',{style: 'percent', minimumFractionDigits:6});
-}
+// Percentagem
 percentagem = percentagem.map(formatarPercentagem);
 percentagem_total = formatarPercentagem(percentagem_total);
 
