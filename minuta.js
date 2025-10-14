@@ -131,9 +131,14 @@ function atualizaMinuta() {
     percentagem_retencao_total = formatarPercentagem(percentagem_retencao_total);
 
     minuta += estiloCorpo(`1. Providencie a Gerente da agência 4182 da Caixa Econômica Federal (Justiça do Trabalho) a <b>liberação parcial</b> do valor depositado na <b>conta judicial ${conta} (${saldo}),</b> com a <b>retenção de ${valor_retencao_total} (${percentagem_retencao_total})</b> e remessa dos comprovantes da operação para juntada aos autos no <b>prazo de 24 (vinte e quatro) horas</b>, nas seguintes proporções:`);
+    // TODO: Alterar pela Caixa e/ou Banco do Brasil com base no número da conta judicial (modificar também o modelo sem retenção)
+    minuta += estiloCorpo("<b>********QUANDO É PARA BB</b>");
+    minuta += estiloCorpo(`1. Providencie o(a) Gerente da agência 4974 do Banco do Brasil (PSO Pato Branco) a <b>liberação parcial</b> do valor depositado na <b>conta judicial ${conta} (${saldo}),</b> com a <b>retenção de ${valor_retencao_total} (${percentagem_retencao_total})</b> e remessa dos comprovantes da operação para juntada aos autos no <b>prazo de 24 (vinte e quatro) horas</b>, nas seguintes proporções:`);
   } else {
     // LIBERAÇÃO TOTAL (SEM RETENÇÃO)
     minuta += estiloCorpo(`1. Providencie a Gerente da agência 4182 da Caixa Econômica Federal (Justiça do Trabalho) a <b>liberação total</b> do valor depositado na <b>conta judicial ${conta} (${saldo}),</b> com a remessa dos comprovantes da operação para juntada aos autos no <b>prazo de 24 (vinte e quatro) horas</b>, nas seguintes proporções:`);
+    minuta += estiloCorpo("<b>********QUANDO É PARA BB</b>");
+    minuta += estiloCorpo(`1. Providencie o(a) Gerente da agência 4974 do Banco do Brasil (PSO Pato Branco) a <b>liberação total</b> do valor depositado na <b>conta judicial ${conta} (${saldo}),</b> com a remessa dos comprovantes da operação para juntada aos autos no <b>prazo de 24 (vinte e quatro) horas</b>, nas seguintes proporções:`);
   }
 
   ////////////////
@@ -296,10 +301,12 @@ function atualizaMinuta() {
   minuta += estiloCorpo("3. Cumprido, <b>expeçam-se os alvarás</b>.");
 
   minuta += estiloCorpo("<b>ATENÇÃO - SE O EXECUTADO FOR PESSOA FÍSICA NÃO TEM QUE JUNTAR GFIP</b>");
-  minuta += estiloCorpo("4. Juntados os comprovantes e zerada a conta judicial, intime(m)-se o(s) executado(s) para que comprove(m) nos autos o encaminhamento das GFIPs e/ou a Declaração de Débitos e Créditos Tributários Federais Previdenciários e de Outras Entidades e Fundos (DCTFWeb) no <b>prazo de 15 (quinze) dias</b>, conforme o caso e nos termos das normas legais pertinentes, sob pena de comunicação à Delegacia da Receita Federal para as providências legais cabíveis (art. 32-A da Lei 8.212/91), <b>observados os procedimentos detalhados na Recomendação nº 1/GCGJT, de 16 de maio de 2024,</b> a saber:");
-  minuta += estiloCorpo("I - <b>nos períodos de apuração de dezembro de 2008 em diante</b>, as contribuições previdenciárias devidas devem ser escrituradas no eSocial (evento S-2500); e,");
-  minuta += estiloCorpo("II - <b>nos períodos de apuração anteriores a dezembro de 2008</b>, as contribuições previdenciárias devidas devem ser escrituradas no eSocial (evento S-2500), acompanhadas da prestação das informações de que trata o art. 32, IV, da Lei nº 8.212/1991, por meio da Guia de Recolhimento do FGTS e Informações à Previdência Social - GFIP.");
-
+  // // Redação legada:
+  // minuta += estiloCorpo("4. Juntados os comprovantes e zerada a conta judicial, intime(m)-se o(s) executado(s) para que comprove(m) nos autos o encaminhamento das GFIPs e/ou a Declaração de Débitos e Créditos Tributários Federais Previdenciários e de Outras Entidades e Fundos (DCTFWeb) no <b>prazo de 15 (quinze) dias</b>, conforme o caso e nos termos das normas legais pertinentes, sob pena de comunicação à Delegacia da Receita Federal para as providências legais cabíveis (art. 32-A da Lei 8.212/91), <b>observados os procedimentos detalhados na Recomendação nº 1/GCGJT, de 16 de maio de 2024,</b> a saber:");
+  // minuta += estiloCorpo("I - <b>nos períodos de apuração de dezembro de 2008 em diante</b>, as contribuições previdenciárias devidas devem ser escrituradas no eSocial (evento S-2500); e,");
+  // minuta += estiloCorpo("II - <b>nos períodos de apuração anteriores a dezembro de 2008</b>, as contribuições previdenciárias devidas devem ser escrituradas no eSocial (evento S-2500), acompanhadas da prestação das informações de que trata o art. 32, IV, da Lei nº 8.212/1991, por meio da Guia de Recolhimento do FGTS e Informações à Previdência Social - GFIP.");
+  minuta += estiloCorpo("4. Juntados os comprovantes e zerada a conta judicial, intime(m)-se o(s) executado(s) para que, no <b>prazo de 15 (quinze) dias,</b> comprove nos autos o <b>encaminhamento</b> da Declaração de Débitos e Créditos Tributários Federais Previdenciários e de Outras Entidades e Fundos (DCTFWeb), por meio do <b>evento S2500</b>, tendo em vista que as contribuições previdenciárias <b><u>serão recolhidas</u> por meio de DARF</b> gerada nos autos da execução, nos termos das normas legais pertinentes, sob pena de comunicação à Delegacia da Receita Federal para as providências legais cabíveis (art. 32-A da Lei 8.212/91).");
+  
   minuta += estiloCorpo("5. Tudo cumprido, retornem para <b>extinção</b>.");
 
   minuta += estiloCorpo("6. Cópia deste(a), publicada no DEJT, servirá de intimação para todos os efeitos legais, em homenagem aos princípios da celeridade e economia processuais.");
