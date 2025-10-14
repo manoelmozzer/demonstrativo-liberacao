@@ -66,10 +66,11 @@ Inputmask({
 //// MÁSCARA CONTA
 maskConta = document.getElementById('conta');
 
-Inputmask({
-  mask: "9{8}-9",
-  placeholder: "________-_",
-}).mask(maskConta);
+//// TODO: Ajutar conforme o modelo do Banco do Brasil. Atual só aceita o formato da Caixa:
+// Inputmask({
+//   mask: "9{8}-9",
+//   placeholder: "________-_",
+// }).mask(maskConta);
 
 
 //// MÁSCARA DINHEIRO
