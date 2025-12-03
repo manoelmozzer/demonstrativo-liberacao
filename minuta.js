@@ -130,13 +130,13 @@ function atualizaMinuta() {
     percentagem_retencao_total = percentagem_retencao_total.div(100);
     percentagem_retencao_total = formatarPercentagem(percentagem_retencao_total);
 
-    minuta += estiloCorpo(`1. Providencie a Gerente da agência 4182 da Caixa Econômica Federal (Justiça do Trabalho) a <b>liberação parcial</b> do valor depositado na <b>conta judicial ${conta} (${saldo}),</b> com a <b>retenção de ${valor_retencao_total} (${percentagem_retencao_total})</b> e remessa dos comprovantes da operação para juntada aos autos no <b>prazo de 24 (vinte e quatro) horas</b>, nas seguintes proporções:`);
+    minuta += estiloCorpo(`1. Providencie a Gerente da agência 0602 da Caixa Econômica Federal a <b>liberação parcial</b> do valor depositado na <b>conta judicial ${conta} (${saldo}),</b> com a <b>retenção de ${valor_retencao_total} (${percentagem_retencao_total})</b> e remessa dos comprovantes da operação para juntada aos autos no <b>prazo de 24 (vinte e quatro) horas</b>, nas seguintes proporções:`);
     // TODO: Alterar pela Caixa e/ou Banco do Brasil com base no número da conta judicial (modificar também o modelo sem retenção)
     minuta += estiloCorpo("<b>********QUANDO É PARA BB</b>");
     minuta += estiloCorpo(`1. Providencie o(a) Gerente da agência 4974 do Banco do Brasil (PSO Pato Branco) a <b>liberação parcial</b> do valor depositado na <b>conta judicial ${conta} (${saldo}),</b> com a <b>retenção de ${valor_retencao_total} (${percentagem_retencao_total})</b> e remessa dos comprovantes da operação para juntada aos autos no <b>prazo de 24 (vinte e quatro) horas</b>, nas seguintes proporções:`);
   } else {
     // LIBERAÇÃO TOTAL (SEM RETENÇÃO)
-    minuta += estiloCorpo(`1. Providencie a Gerente da agência 4182 da Caixa Econômica Federal (Justiça do Trabalho) a <b>liberação total</b> do valor depositado na <b>conta judicial ${conta} (${saldo}),</b> com a remessa dos comprovantes da operação para juntada aos autos no <b>prazo de 24 (vinte e quatro) horas</b>, nas seguintes proporções:`);
+    minuta += estiloCorpo(`1. Providencie a Gerente da agência 0602 da Caixa Econômica Federal a <b>liberação total</b> do valor depositado na <b>conta judicial ${conta} (${saldo}),</b> com a remessa dos comprovantes da operação para juntada aos autos no <b>prazo de 24 (vinte e quatro) horas</b>, nas seguintes proporções:`);
     minuta += estiloCorpo("<b>********QUANDO É PARA BB</b>");
     minuta += estiloCorpo(`1. Providencie o(a) Gerente da agência 4974 do Banco do Brasil (PSO Pato Branco) a <b>liberação total</b> do valor depositado na <b>conta judicial ${conta} (${saldo}),</b> com a remessa dos comprovantes da operação para juntada aos autos no <b>prazo de 24 (vinte e quatro) horas</b>, nas seguintes proporções:`);
   }
