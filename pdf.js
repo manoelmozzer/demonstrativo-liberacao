@@ -83,7 +83,8 @@ var linha_atual = linha_atual + bloco_anterior + pular_linhas
 
 // Saldo em conta judicial
 doc.setTextColor("red");
-conta_texto = "Saldo em conta judicial 4182-042-";
+// conta_texto = "Saldo em conta judicial 4182-042-";// Antiga fixação da agência 4182
+conta_texto = "Saldo em conta judicial ";
 conta;// Origem 'dados.js'
 saldo;// Origem 'dados.js'
 doc.text(conta_texto + conta, margem_esquerda, linha(linha_atual));
