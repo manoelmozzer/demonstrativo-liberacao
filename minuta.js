@@ -212,7 +212,7 @@ function atualizaMinuta() {
   function principalAT(valor, percentagem, indexAlpha) {
     minuta += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> a título de <b>principal</b> para <b>#{processoTrfHome.nomeCpfAutorList}</b>, mediante transferência para`);
     minuta += estiloCorpo(`<b>ATENÇÃO:</b> Verificar situações especiais (J.C.L ou V.O.M.J.) no modelo de liberação: <i>"Decisão -> Liberação de valores - não há contrato de honorários"</i>.`)
-    minuta += estiloCorpo(`a <b>conta XXXXX da agência XXXXX do banco XXXXX</b>, de titularidade do(s) seu(s) procurador(es) <b>#{processo.partes.poloAtivo.advogados.nomesEDocumentos.linhas} #{processo.partes.poloAtivo.advogados.nomesEOAB.linhas},</b> porquanto <b>detentor(es) de poderes expressos para “receber” e “dar quitação”, conforme instrumento de Id. xxxxx;</b>`)
+    minuta += estiloCorpo(`a <b>conta XXXXX da agência XXXXX do banco XXXXX</b>, de titularidade do(s) seu(s) procurador(es) <b>#{processo.partes.poloAtivo.advogados.nomesEDocumentos.linhas}, #{processo.partes.poloAtivo.advogados.nomesEOAB.linhas},</b> porquanto <b>detentor(es) de poderes expressos para “receber” e “dar quitação”, conforme instrumento de Id. xxxxx;</b>`)
   }
 
   // Contribuições Previdenciárias
@@ -222,13 +222,13 @@ function atualizaMinuta() {
 
   // Honorários de Sucumbência do Advogado do Exequente
   function hon_suc_exnteAT(valor, percentagem, indexAlpha) {
-    minuta += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> a título de <b>honorários de sucumbência</b> para advogado(a) do(a) exequente <b>#{processo.partes.poloAtivo.advogados.nomesEDocumentos.linhas} #{processo.partes.poloAtivo.advogados.nomesEOAB.linhas}</b>;`);
+    minuta += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> a título de <b>honorários de sucumbência</b> para advogado(a) do(a) exequente <b>#{processo.partes.poloAtivo.advogados.nomesEDocumentos.linhas}, #{processo.partes.poloAtivo.advogados.nomesEOAB.linhas}</b>;`);
     minuta += estiloCorpo(`<b><u>ATENÇÃO - SE FOR CUMPRIMENTO DE SENTENÇA É PRECISO VERIFICAR SE OS HONORÁRIOS DE SUCUMBÊNCIA IRÃO PARA O SINDICATO QUANDO SE TRATA DE HONORÁRIOS ASSISTENCIAIS.</u></b>`);
   }
 
   // Honorários de Sucumbência do Advogado do Executado
   function hon_suc_exadoAT(valor, percentagem, indexAlpha) {
-    minuta += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> a título de <b>honorários de sucumbência</b> para advogado(a) do(a) executado(a) <b>#{processo.partes.poloPassivo.advogados.nomesEDocumentos.linhas} #{processo.partes.poloPassivo.advogados.nomesEOAB.linhas}</b>;`);
+    minuta += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> a título de <b>honorários de sucumbência</b> para advogado(a) do(a) executado(a) <b>#{processo.partes.poloPassivo.advogados.nomesEDocumentos.linhas}, #{processo.partes.poloPassivo.advogados.nomesEOAB.linhas}</b>;`);
   }
 
   // Honorários Assistenciais do Sindicato
@@ -248,7 +248,7 @@ function atualizaMinuta() {
 
   // Custas
   function custasAT(valor, percentagem, indexAlpha) {
-    minuta += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> a título de <b>custas processuais</b>, figurando <b>#{processo.partes.poloPassivo.nomesEDocumentos}</b> na condição de <b>contribuinte (representante legal: advogado da causa #{processo.partes.poloPassivo.advogados.nomesEDocumentos.linhas} #{processo.partes.poloPassivo.advogados.nomesEOAB.linhas})</b>;`)
+    minuta += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> a título de <b>custas processuais</b>, figurando <b>#{processo.partes.poloPassivo.nomesEDocumentos}</b> na condição de <b>contribuinte (representante legal: advogado da causa #{processo.partes.poloPassivo.advogados.nomesEDocumentos.linhas}, #{processo.partes.poloPassivo.advogados.nomesEOAB.linhas})</b>;`)
   }
 
   // Honorários Leiloeiro
