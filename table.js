@@ -168,6 +168,7 @@ function addLine(fav_value, val_value) {
     var input_fav = document.createElement("input");
     input_fav.classList.add("form-control","text-uppercase");
     input_fav.id = "fav-" + counter;
+    // input_fav.dataset.id = counter;// Atributo "data-id"
     // input_fav.value = "A";
     input_fav.value = fav_value;
   // Juntar elementos
@@ -182,6 +183,7 @@ function addLine(fav_value, val_value) {
   input_val.classList.add("form-control", "maskDinheiro", "text-end");
   input_val.oninput = function() { atualizaValores() };
   input_val.id = "val-" + counter;
+  // input_val.dataset.id = counter;// Atributo "data-id"
   // input_val.value = "100,00";
   input_val.value = val_value;
   // Adiciona tooltips

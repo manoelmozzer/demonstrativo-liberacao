@@ -85,6 +85,9 @@ window.addEventListener("DOMContentLoaded", (event) => {// Aguarda o DOM carrega
 <!-- Modal do Modelo de Minuta-->
 <script type="text/javascript" src="minuta.js"></script>
 
+<!-- Modal do Modelo de Certidão-->
+<script type="text/javascript" src="certidao.js"></script>
+
 <!-- Botões de copiar-->
 <script type="text/javascript" src="copiar.js"></script>
 
@@ -302,7 +305,7 @@ window.addEventListener("DOMContentLoaded", (event) => {// Aguarda o DOM carrega
     <button class="btn btn-primary adicionar p-0 px-1" onclick="addLine();reaplicarMaskDinheiro();"><i class="bi bi-plus"></i></button>
   </div>
   <div class="col-auto">
-    <button class="btn btn-secondary me-1" data-bs-toggle="modal" data-bs-target="#modalMinuta" onclick="listarTabela();atualizaMinuta();"><i class="bi bi-file-earmark-text"></i> Minuta</button><button class="btn btn-success ms-1" onclick=pdf()><i class="bi bi-filetype-pdf"></i> Gerar PDF</button>
+    <button class="btn btn-secondary me-1" data-bs-toggle="modal" data-bs-target="#modalMinuta" onclick="listarTabela();atualizaMinuta();"><i class="bi bi-file-earmark-text"></i> Minuta</button><button class="btn btn-secondary me-1" disabled data-bs-toggle="modal" data-bs-target="#modalCertidao" onclick="listarTabelaCertidao();atualizaCertidao();"><i class="bi bi-file-earmark-text"></i> Gerar Certidão</button><button class="btn btn-success ms-1" onclick=pdf()><i class="bi bi-filetype-pdf"></i> Gerar PDF</button>
   </div>
 </div>
 
@@ -316,7 +319,7 @@ window.addEventListener("DOMContentLoaded", (event) => {// Aguarda o DOM carrega
   <!-- <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen"> -->
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Auxiliar de Minuta</h5>
+        <h5 class="modal-title" id="modalLabelMinuta">Auxiliar de Minuta</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
@@ -376,6 +379,78 @@ window.addEventListener("DOMContentLoaded", (event) => {// Aguarda o DOM carrega
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
         <button type="button" class="btn btn-primary copiar-minuta" data-clipboard-target="#minuta" data-bs-toggle="tooltip" data-bs-trigger="click" data-bs-html="true" data-bs-title="<p class='mb-2'>Minuta Copiada!</p><p class='m-0'>Cole, Salve e<br>Atualize (F5) no PJe</p>">Copiar Minuta</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Certidão -->
+<div class="modal fade" id="modalCertidao" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <!-- <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen"> -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabelCertidao">Certidão</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+
+        <table class="table table-sm table-borderless align-middle table-hover" id="certidao-table">
+          <thead>
+            <tr>
+              <th scope="col" class="col">Favorecido</th>
+              <th scope="col" class="col col-modal-valor">Valor</th>
+              <!-- <th scope="col" class="col col-sel-tipo ps-2">Tipo</th> -->
+              <th scope="col" class="col col-sel-tipo">Tipo</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <!-- Linha para debug -->
+<!--             <tr>
+              <td>LÍQUIDO DEVIDO AO EXEQUENTE</td>
+              <td>R$ 85.043,50</td>
+              <td>
+                <select class="form-select">
+                  <option value="generico">Genérico</option>
+                  <option value="principal">Principal</option>
+                </select>
+              </td>
+            </tr> -->
+
+            <!-- Contruída em certidao.js -->
+<!--             <script>
+              // Não é necessário construir a tabela antes do clique do botão
+              // Contruída em certidao.js
+              // listarTabela();
+            </script> -->
+          </tbody>
+
+          <tfoot>
+            <tr>
+              <!-- Borda inferior e espaço depois do 'tbody' -->
+            </tr>
+          </tfoot>
+
+        </table>
+
+        <div class="highlight card text-bg-light mb-3">
+          <div class="card-header">
+            <div class="row justify-content-between">
+              <div class="col-auto">Modelo de Certidão</div>
+              <div class="col-auto copiar-certidao copiar-icon px-2" data-clipboard-target="#certidao" data-bs-toggle="tooltip" data-bs-trigger="click" data-bs-html="true" data-bs-title="<p class='mb-2'>Certidão Copiada!</p><p class='m-0'>Cole, Salve e<br>Atualize (F5) no PJe</p>"><i class="bi bi-clipboard"></i></div>
+            </div>
+          </div>
+          <div class="card-body" id="certidao">
+            <!-- Contruída em certidao.js -->
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-primary copiar-certidao" data-clipboard-target="#certidao" data-bs-toggle="tooltip" data-bs-trigger="click" data-bs-html="true" data-bs-title="<p class='mb-2'>Certidão Copiada!</p><p class='m-0'>Cole, Salve e<br>Atualize (F5) no PJe</p>">Copiar Certidão</button>
       </div>
     </div>
   </div>
