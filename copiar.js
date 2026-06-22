@@ -7,7 +7,7 @@ window.addEventListener("DOMContentLoaded", (event) => {// Aguarda o DOM carrega
   // var clipboard = new ClipboardJS(btn);
 
   // Pega os botões copiar por classe
-  var clipboard = new ClipboardJS('.copiar-minuta');
+  var clipboard = new ClipboardJS('.copiar-minuta, .copiar-certidao');
 
   clipboard.on('success', function(e) {
     // console.log(e);
@@ -19,7 +19,7 @@ window.addEventListener("DOMContentLoaded", (event) => {// Aguarda o DOM carrega
     // Verifica se o elemento contém a classe 'copiar-icon'
     if ( e.trigger.classList.contains("copiar-icon") ) {
       // Altera o ícone
-      mudarIcon();
+      mudarIcon(e.trigger);// Passa o elemento do botão clicado para a função
     }
   });
 
@@ -46,9 +46,14 @@ function hideTooltip(btn) {
 }
 
 // Muda o ícone temporariamente após clicar em copiar
-function mudarIcon() {
-  btn = document.getElementsByClassName('copiar-icon')[0];
-  // Altera o ícone
+function mudarIcon(btn) {
+  // Garante que o 'btn' foi passado corretamente
+  if (!btn) return;
+
+  // [Legado] Encontrava somente o primerio elemento da classe copiar-icon. Não recebia o parâmetro na função.
+  // btn = document.getElementsByClassName('copiar-icon')[0];
+
+  // Altera o ícone do botão específico que foi clicado
   btn.innerHTML = '<i class="bi bi-clipboard-check"></i>';
   // Retorna o ícone após o tempo encerrar
   setTimeout(function() {
