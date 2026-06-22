@@ -129,7 +129,14 @@ function atualizaCertidao() {
     // SOMA VALORES RETENÇÃO (se houver mais de uma)
     valor_retencao = index_retencao.map(x => toCurrencyDecimal(valor_liberado[x]));
     valor_retencao_total = valor_retencao.reduce((a,b) => Decimal.add(a, b), 0);
+    // VALOR PARCIAL LIBERADO
+    // Mapeia e soma todos os valores da lista para ter o valor total (antes da retenção)
+    valor_total_com_retencao = valor_liberado.map(x => toCurrencyDecimal(x)).reduce((a,b) => Decimal.add(a, b), 0);
+    // Liberação Parcial = Total Original - Retenção Total
+    valor_liberacao_parcial = Decimal.sub(valor_total_com_retencao, valor_retencao_total);
+    // Formata os valores para exibição em dinheiro
     valor_retencao_total = formatarDinheiro(valor_retencao_total);
+    valor_liberacao_parcial = formatarDinheiro(valor_liberacao_parcial);
     // SOMA PERCENTAGENS DE RETENÇÃO (se houver mais de uma)
     // Preferível somar com casas limitadas, para ficar exatamente igual a soma da planilha em PDF
     percentagem_retencao = index_retencao.map(x => toPercentDecimal(percentagem[x]));
@@ -138,12 +145,12 @@ function atualizaCertidao() {
     percentagem_retencao_total = percentagem_retencao_total.div(100);
     percentagem_retencao_total = formatarPercentagem(percentagem_retencao_total);
 
-
-    certidao += estiloCorpo(`<i>Retenção na conta:</i> ${valor_retencao_total} (${percentagem_retencao_total})`);
-    
+    // LIBERAÇÃO COM RETENÇÃO
+    certidao += estiloParSimples(`<i>Retenção na conta:</i> ${valor_retencao_total} (${percentagem_retencao_total})`);
+    certidao += estiloParSimples(`<i>Liberação parcial:</i> ${valor_liberacao_parcial}`)
   } else {
     // LIBERAÇÃO SEM RETENÇÃO
-    certidao += estiloCorpo("<i>Liberação total</i>");
+    certidao += estiloParSimples("<i>Liberação total</i>");
   }
 
   certidao += estiloCorpo("&nbsp;");
@@ -154,9 +161,9 @@ function atualizaCertidao() {
 
   // Remove o que for retenção das verificações (não tem item de certidão para retenção)
   // Salva o resultado em um array de index
-  index_minus_retencao = selecAutotexto.map( (x,index) => {if(x!="retencao") return index } ).filter(i => i !== undefined);
+  index_sem_retencao = selecAutotexto.map( (x,index) => {if(x!="retencao") return index } ).filter(i => i !== undefined);
   // Verifica cada elemento do array de seleção ('value', 'índice do value', 'índice alfabético ordenado')
-  index_minus_retencao.forEach((value, index) => verificarAutotexto(selecAutotexto[value], value, index));
+  index_sem_retencao.forEach((value, index) => verificarAutotexto(selecAutotexto[value], value, index));
 
   function verificarAutotexto(value, index, indexAlpha) {
     // Pega valores 
@@ -217,30 +224,49 @@ function atualizaCertidao() {
 
   // Principal
   function principalAT(valor, percentagem, indexAlpha) {
-    certidao += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> a título de <b>principal</b> para <b>#{processoTrfHome.nomeCpfAutorList}</b>, mediante transferência para`);
-    certidao += estiloCorpo(`<b>ATENÇÃO:</b> Verificar situações especiais (J.C.L ou V.O.M.J.) no modelo de liberação: <i>"Decisão -> Liberação de valores - não há contrato de honorários"</i>.`)
-    certidao += estiloCorpo(`a <b>conta XXXXX da agência XXXXX do banco XXXXX</b>, de titularidade do(s) seu(s) procurador(es) <b>#{processo.partes.poloAtivo.advogados.nomesEDocumentos.linhas}, #{processo.partes.poloAtivo.advogados.nomesEOAB.linhas},</b> porquanto <b>detentor(es) de poderes expressos para “receber” e “dar quitação”, conforme instrumento de Id. xxxxx;</b>`)
+    certidao += estiloTitulo3(`${indexAlpha}) PRINCIPAL - DEVIDO AO EXEQUENTE`);
+    certidao += estiloCorpo(`<i>Valor:</i> <b>${valor} (${percentagem})</b>`);
+    certidao += estiloCorpo("<i>Destinatário:</i> #{processoTrfHome.nomeCpfAutorList}");
+    certidao += estiloCorpo("<i>Forma:</i> Conta de sua titularidade e/ou do(s) seu(s) procurador(es) (poderes para \"receber\" e \"dar quitação\": ID. XXXXXXX");
+    certidao += estiloCorpo("<i>Procurador(es):</i> #{processo.partes.poloAtivo.advogados.nomesEDocumentos.linhas}, #{processo.partes.poloAtivo.advogados.nomesEOAB.linhas} (conta: XXXX, agência: YYYY, Banco ZZZZ)");
+    certidao += estiloCorpo("&nbsp;");
   }
 
   // Contribuições Previdenciárias
   function cont_prevAT(valor, percentagem, indexAlpha) {
-    certidao += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> a título de <b>contribuições previdenciárias</b>, figurando <b>#{processo.partes.poloPassivo.nomesEDocumentos}</b> na condição de <b>contribuinte</b>;`);
+    certidao += estiloTitulo3(`${indexAlpha}) CONTRIBUIÇÕES PREVIDENCIÁRIAS`);
+    certidao += estiloCorpo(`<i>Valor:</i> <b>${valor} (${percentagem})</b>`);
+    certidao += estiloCorpo("<i>Contribuinte:</i>: #{processo.partes.poloPassivo.nomesEDocumentos}")
+    certidao += estiloCorpo("&nbsp;");
   }
 
   // Honorários de Sucumbência do Advogado do Exequente
   function hon_suc_exnteAT(valor, percentagem, indexAlpha) {
-    certidao += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> a título de <b>honorários de sucumbência</b> para advogado(a) do(a) exequente <b>#{processo.partes.poloAtivo.advogados.nomesEDocumentos.linhas}, #{processo.partes.poloAtivo.advogados.nomesEOAB.linhas}</b>;`);
-    certidao += estiloCorpo(`<b><u>ATENÇÃO - SE FOR CUMPRIMENTO DE SENTENÇA É PRECISO VERIFICAR SE OS HONORÁRIOS DE SUCUMBÊNCIA IRÃO PARA O SINDICATO QUANDO SE TRATA DE HONORÁRIOS ASSISTENCIAIS.</u></b>`);
+    certidao += estiloCorpo("<b><u>ATENÇÃO - SE FOR CUMPRIMENTO DE SENTENÇA É PRECISO VERIFICAR SE OS HONORÁRIOS DE SUCUMBÊNCIA IRÃO PARA O SINDICATO QUANDO SE TRATA DE HONORÁRIOS ASSISTENCIAIS.</u></b>");
+    certidao += estiloTitulo3(`${indexAlpha}) HONORÁRIOS DE SUCUMBÊNCIA - ADV. EXEQUENTE`);
+    certidao += estiloCorpo(`<i>Valor:</i> <b>${valor} (${percentagem})</b>`);
+    certidao += estiloCorpo("<i>Destinatário:</i> #{processo.partes.poloAtivo.advogados.nomesEDocumentos.linhas}, #{processo.partes.poloAtivo.advogados.nomesEOAB.linhas}");
+    certidao += estiloCorpo("<i>Forma:</i> Conta de sua titularidade (<i>vide</i> item \"A\" ou conta: XXXX, agência: YYYY, Banco ZZZZ)");
+    certidao += estiloCorpo("&nbsp;");
   }
 
   // Honorários de Sucumbência do Advogado do Executado
   function hon_suc_exadoAT(valor, percentagem, indexAlpha) {
+    certidao += estiloTitulo3(`${indexAlpha}) HONORÁRIOS ASSISTENCIAIS - SINDICATO`);
+     // PAREI AQUI: já fiz o próximo item
+
     certidao += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> a título de <b>honorários de sucumbência</b> para advogado(a) do(a) executado(a) <b>#{processo.partes.poloPassivo.advogados.nomesEDocumentos.linhas}, #{processo.partes.poloPassivo.advogados.nomesEOAB.linhas}</b>;`);
   }
 
   // Honorários Assistenciais do Sindicato
   function hon_ass_sindAT(valor, percentagem, indexAlpha) {
-    certidao += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> a título de <b>honorários assistenciais</b> para o <b>substituto processual (Sindicato XXXXXX - Sindicato dos Empregados em Estabelecimentos Bancários de Pato Branco e Região - CNPJ 78.278.710/0001-75)</b>;`);
+    certidao += estiloTitulo3(`${indexAlpha}) HONORÁRIOS ASSISTENCIAIS - SINDICATO`);
+    certidao += estiloCorpo(`<i>Valor:</i> <b>${valor} (${percentagem})</b>`);
+    certidao += estiloCorpo("<i>Destinatário:</i> Substituto processual (Sindicato XXXXXX - Sindicato dos Empregados em Estabelecimentos Bancários de Pato Branco e Região - CNPJ 78.278.710/0001-75)");
+    certidao += estiloCorpo("<i>Forma:</i> Conta de sua titularidade e/ou do(s) seu(s) procurador(es) (poderes para \"receber\" e \"dar quitação\": ID. XXXXXXX da Ação Coletiva nº XXXXXXXXX");
+    certidao += estiloCorpo("<i>Procurador(es):</i> #{processo.partes.poloAtivo.advogados.nomesEDocumentos.linhas}, #{processo.partes.poloAtivo.advogados.nomesEOAB.linhas} (conta: XXXX, agência: YYYY, Banco ZZZZ)");
+    certidao += estiloCorpo("<b>OBS:</b> Verificar se tem procuração atualizada, ou se é necessário intimar para apresentar procuração recente.");
+    certidao += estiloCorpo("&nbsp;");
   }
 
   // Honorários de Calculista
@@ -289,20 +315,6 @@ function atualizaCertidao() {
   // Restituição ao TRT-9
   function rest_trtAT(valor, percentagem, indexAlpha) {
     certidao += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> para o <b>TRT DA 9ª REGIÃO</b>, a título de <b>restituição da importância antecipada para a prova pericial</b>;`)
-  }
-
-  ////////////////
-  // FECHAMENTO
-  ////////////////
-
-  // Verifica se tem honorários assistenciais
-  if ( selecAutotexto.some((value) => value == "hon_ass_sind") ) {
-    // ITEM ALTERNATIVO - CUMPRSENT COM HONORÁRIOS ASSISTENCIAIS
-    certidao += estiloCorpo("<b><u>******** ATENÇÃO ITEM ABAIXO ALTERNATIVO - EM CASO DE CUMPRIMENTO DE SENTENÇA COM HONORÁRIOS ASSISTENCIAIS AO SINDICATO</u></b>");
-    certidao += estiloCorpo("2. A fim de agilizar tal procedimento e por economia processual, intimem-se os favorecidos para que indiquem <b>conta bancária para transferência dos seus créditos</b>, aí compreendido o <b>substituto processual (SINDICATO XXXXXXXXX)</b>, mediante intimação para <b>os procuradores constituídos na AÇÃO COLETIVA nº XXXXXXXXX (ID XXXXXX - fl. XXXXXXXX)</b>, inclusive para que <b>anexem procuração atualizada com poderes expressos para receber e dar quitação em nome da entidade sindical, no prazo de 05 (cinco) dias</b>.");
-  } else {
-    // ITEM SEM HONORÁRIOS ASSISTENCIAIS
-    certidao += estiloCorpo("2. A fim de agilizar tal procedimento e por economia processual, intime-se o(a) procurador(a) do(a) exequente para que <b>informe a conta bancária para transferência dos créditos no prazo de 05 (cinco) dias</b>.");
   }
 
   // Insere a certidão na caixa
