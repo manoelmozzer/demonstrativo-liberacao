@@ -189,3 +189,14 @@ td {margin: 0 !important; padding: 0 !important;}*/
   cursor: pointer;
 }
 
+/* AUXILIAR DE CERTIDÃO */
+
+/* Títulos na Certidão */
+#certidao > h3 {
+  font-size: 16pt;
+  font-weight: bold;
+}
+#certidao > h4 {
+  font-size: 12pt;
+  font-weight: bold;
+}
