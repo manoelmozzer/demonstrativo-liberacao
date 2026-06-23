@@ -97,6 +97,8 @@ function atualizaCertidao() {
   tabelaCertidao = document.getElementById("certidao-table");
   // Array que recebe os value das opções
   selecAutotexto = [];
+  // Obtém a data de hoje no formato dd/mm/aaaa
+  dataAtual = new Date().toLocaleDateString('pt-BR');
 
   // Envia os value para o array
   for (r=1; r<tabelaCertidao.rows.length-1; r++) {
@@ -113,11 +115,9 @@ function atualizaCertidao() {
   certidao += estiloCorpo("&nbsp;");
 
   // CONTA E VALOR
-
   // TODO: Identificar automaticamente se é CEF ou BB com base no número da conta judicial
-  // TODO: Pegar automaticamente a data de hoje
-  certidao += estiloParSimples(`<i>Conta:</i> ${conta} (BB/CEF)`)
-  certidao += estiloParSimples(`<i>Saldo disponível em xx/xx/2026:</i> ${saldo}`)
+  certidao += estiloParSimples(`<i>Conta:</i> ${conta} (BB/CEF)`);
+  certidao += estiloParSimples(`<i>Saldo disponível em ${dataAtual}:</i> ${saldo}`);
 
   // RETENÇÃO
   // Verifica se tem ou não Retenção na conta
@@ -147,7 +147,7 @@ function atualizaCertidao() {
 
     // LIBERAÇÃO COM RETENÇÃO
     certidao += estiloParSimples(`<i>Retenção na conta:</i> ${valor_retencao_total} (${percentagem_retencao_total})`);
-    certidao += estiloParSimples(`<i>Liberação parcial:</i> ${valor_liberacao_parcial}`)
+    certidao += estiloParSimples(`<i>Liberação parcial:</i> ${valor_liberacao_parcial}`);
   } else {
     // LIBERAÇÃO SEM RETENÇÃO
     certidao += estiloParSimples("<i>Liberação total</i>");
@@ -206,6 +206,9 @@ function atualizaCertidao() {
         genericoAT(v, p, i); break;
     }
 
+    // Adiciona uma linha em branco após cada item
+    certidao += estiloCorpo("&nbsp;");
+
     // Converte a entrada do índice para alfabético
     // Entrada: '0'. Saída: 'A'
     function toAlphaIndex(index) {
@@ -219,7 +222,9 @@ function atualizaCertidao() {
 
   // Genérico
   function genericoAT(valor, percentagem, indexAlpha) {
-    certidao += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> a título de <b>XXXXX</b> para <b>XXXXX</b>;`);
+    certidao += estiloTitulo3(`${indexAlpha}) XXXXXXXXXXXXXXXX`);
+    certidao += estiloCorpo(`<i>Valor:</i> <b>${valor} (${percentagem})</b>`);
+    certidao += estiloCorpo("<i>Destinatário:</i> XXXXXXXXXXXXXXXXX");
   }
 
   // Principal
@@ -229,15 +234,13 @@ function atualizaCertidao() {
     certidao += estiloCorpo("<i>Destinatário:</i> #{processoTrfHome.nomeCpfAutorList}");
     certidao += estiloCorpo("<i>Forma:</i> Conta de sua titularidade e/ou do(s) seu(s) procurador(es) (poderes para \"receber\" e \"dar quitação\": ID. XXXXXXX");
     certidao += estiloCorpo("<i>Procurador(es):</i> #{processo.partes.poloAtivo.advogados.nomesEDocumentos.linhas}, #{processo.partes.poloAtivo.advogados.nomesEOAB.linhas} (conta: XXXX, agência: YYYY, Banco ZZZZ)");
-    certidao += estiloCorpo("&nbsp;");
   }
 
   // Contribuições Previdenciárias
   function cont_prevAT(valor, percentagem, indexAlpha) {
     certidao += estiloTitulo3(`${indexAlpha}) CONTRIBUIÇÕES PREVIDENCIÁRIAS`);
     certidao += estiloCorpo(`<i>Valor:</i> <b>${valor} (${percentagem})</b>`);
-    certidao += estiloCorpo("<i>Contribuinte:</i>: #{processo.partes.poloPassivo.nomesEDocumentos}")
-    certidao += estiloCorpo("&nbsp;");
+    certidao += estiloCorpo("<i>Contribuinte:</i>: #{processo.partes.poloPassivo.nomesEDocumentos}");
   }
 
   // Honorários de Sucumbência do Advogado do Exequente
@@ -247,15 +250,14 @@ function atualizaCertidao() {
     certidao += estiloCorpo(`<i>Valor:</i> <b>${valor} (${percentagem})</b>`);
     certidao += estiloCorpo("<i>Destinatário:</i> #{processo.partes.poloAtivo.advogados.nomesEDocumentos.linhas}, #{processo.partes.poloAtivo.advogados.nomesEOAB.linhas}");
     certidao += estiloCorpo("<i>Forma:</i> Conta de sua titularidade (<i>vide</i> item \"A\" ou conta: XXXX, agência: YYYY, Banco ZZZZ)");
-    certidao += estiloCorpo("&nbsp;");
   }
 
   // Honorários de Sucumbência do Advogado do Executado
   function hon_suc_exadoAT(valor, percentagem, indexAlpha) {
-    certidao += estiloTitulo3(`${indexAlpha}) HONORÁRIOS ASSISTENCIAIS - SINDICATO`);
-     // PAREI AQUI: já fiz o próximo item
-
-    certidao += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> a título de <b>honorários de sucumbência</b> para advogado(a) do(a) executado(a) <b>#{processo.partes.poloPassivo.advogados.nomesEDocumentos.linhas}, #{processo.partes.poloPassivo.advogados.nomesEOAB.linhas}</b>;`);
+    certidao += estiloTitulo3(`${indexAlpha}) HONORÁRIOS DE SUCUMBÊNCIA - ADV. EXECUTADO`);
+    certidao += estiloCorpo(`<i>Valor:</i> <b>${valor} (${percentagem})</b>`);
+    certidao += estiloCorpo("<i>Destinatário:</i> #{processo.partes.poloPassivo.advogados.nomesEDocumentos.linhas}, #{processo.partes.poloPassivo.advogados.nomesEOAB.linhas}");
+    certidao += estiloCorpo("<i>Forma:</i> Conta de sua titularidade (conta: XXXX, agência: YYYY, Banco ZZZZ)");
   }
 
   // Honorários Assistenciais do Sindicato
@@ -266,55 +268,75 @@ function atualizaCertidao() {
     certidao += estiloCorpo("<i>Forma:</i> Conta de sua titularidade e/ou do(s) seu(s) procurador(es) (poderes para \"receber\" e \"dar quitação\": ID. XXXXXXX da Ação Coletiva nº XXXXXXXXX");
     certidao += estiloCorpo("<i>Procurador(es):</i> #{processo.partes.poloAtivo.advogados.nomesEDocumentos.linhas}, #{processo.partes.poloAtivo.advogados.nomesEOAB.linhas} (conta: XXXX, agência: YYYY, Banco ZZZZ)");
     certidao += estiloCorpo("<b>OBS:</b> Verificar se tem procuração atualizada, ou se é necessário intimar para apresentar procuração recente.");
-    certidao += estiloCorpo("&nbsp;");
   }
 
   // Honorários de Calculista
   function hon_calcAT(valor, percentagem, indexAlpha) {
-    certidao += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> a título de <b>honorários de calculista</b> para <b>#{processo.partes.terceiros.peritos.nomesEDocumentos}</b>;`)
+    certidao += estiloTitulo3(`${indexAlpha}) HONORÁRIOS DE CALCULISTA`);
+    certidao += estiloCorpo(`<i>Valor:</i> <b>${valor} (${percentagem})</b>`);
+    certidao += estiloCorpo("<i>Destinatário:</i> #{processo.partes.terceiros.peritos.nomesEDocumentos}");
   }
 
   // Honorários de Perito
   function hon_perAT(valor, percentagem, indexAlpha) {
-    certidao += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> a título de <b>honorários de perito(a)</b> para <b>#{processo.partes.terceiros.peritos.nomesEDocumentos}</b>;`)
+    certidao += estiloTitulo3(`${indexAlpha}) HONORÁRIOS DE PERITO`);
+    certidao += estiloCorpo(`<i>Valor:</i> <b>${valor} (${percentagem})</b>`);
+    certidao += estiloCorpo("<i>Destinatário:</i> #{processo.partes.terceiros.peritos.nomesEDocumentos}");
   }
 
   // Custas
   function custasAT(valor, percentagem, indexAlpha) {
-    certidao += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> a título de <b>custas processuais</b>, figurando <b>#{processo.partes.poloPassivo.nomesEDocumentos}</b> na condição de <b>contribuinte (representante legal: advogado da causa #{processo.partes.poloPassivo.advogados.nomesEDocumentos.linhas}, #{processo.partes.poloPassivo.advogados.nomesEOAB.linhas})</b>;`)
+    certidao += estiloTitulo3(`${indexAlpha}) CUSTAS PROCESSUAIS`);
+    certidao += estiloCorpo(`<i>Valor:</i> <b>${valor} (${percentagem})</b>`);
+    certidao += estiloCorpo("<i>Contribuinte:</i> #{processo.partes.poloPassivo.nomesEDocumentos}");
+    certidao += estiloCorpo("<i>Representante Legal:</i> advogado da causa #{processo.partes.poloPassivo.advogados.nomesEDocumentos.linhas}, #{processo.partes.poloPassivo.advogados.nomesEOAB.linhas}");
   }
 
   // Honorários Leiloeiro
   function hon_leilAT(valor, percentagem, indexAlpha) {
-    certidao += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> a título de <b>honorários de leiloeiro para ELTON LUIZ SIMON, CPF: 044.016.329-31</b>, mediante <b>transferência para CEF, Agência 4594, conta poupança 809717171-4, operação 1288</b>;`)
+    certidao += estiloTitulo3(`${indexAlpha}) HONORÁRIOS DE LEILOEIRO`);
+    certidao += estiloCorpo(`<i>Valor:</i> <b>${valor} (${percentagem})</b>`);
+    certidao += estiloCorpo("<i>Destinatário:</i> ELTON LUIZ SIMON, CPF: 044.016.329-31 (CEF, Agência 4594, conta poupança 809717171-4, operação 1288)");
   }
 
   // Despesas Publicação do Edital do Leilão
   function desp_edt_leilAT(valor, percentagem, indexAlpha) {
-    certidao += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> a título de <b>despesas com publicação de edital para a EDITORA JURITI LTDA (CNPJ: 80.192.081/0001-08)</b>, mediante <b>transferência para Banco do Brasil, agência 0495, conta corrente 20255-X</b>;`)
+    certidao += estiloTitulo3(`${indexAlpha}) DESPESAS COM PUBLICAÇÃO DE EDITAL`);
+    certidao += estiloCorpo(`<i>Valor:</i> <b>${valor} (${percentagem})</b>`);
+    certidao += estiloCorpo("<i>Destinatário:</i> EDITORA JURITI LTDA, CNPJ: 80.192.081/0001-08 (Banco do Brasil, agência 0495, conta corrente 20255-X)");
   }
 
   // Despesas Cartorárias
   function desp_cartAT(valor, percentagem, indexAlpha) {
-    certidao += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> a título de <b>despesas cartorárias</b> para <b>CARTÓRIO VIEIRA (CNPJ 77.780.773/0001-62)</b>, mediante <b>transferência para CEF, agência 0602, operação 003, conta 5735-2</b>;`)
+    certidao += estiloTitulo3(`${indexAlpha}) DESPESAS CARTORÁRIAS`);
+    certidao += estiloCorpo(`<i>Valor:</i> <b>${valor} (${percentagem})</b>`);
+    certidao += estiloCorpo("<i>Destinatário:</i> CARTÓRIO VIEIRA, CNPJ 77.780.773/0001-62 (CEF, agência 0602, operação 003, conta 5735-2)");
   }
 
   // Imposto de Renda
   function irAT(valor, percentagem, indexAlpha) {
-    certidao += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> a título de <b>imposto de renda</b>, figurando <b>XXXXXXXXXX</b>, na condição de <b>contribuinte</b>;`)
+    certidao += estiloTitulo3(`${indexAlpha}) IMPOSTO DE RENDA`);
+    certidao += estiloCorpo(`<i>Valor:</i> <b>${valor} (${percentagem})</b>`);
+    certidao += estiloCorpo("<i>Contribuinte:</i> XXXXXXXXXXXXXXX");
   }
 
   // Depósito na Conta do FGTS
   function dep_con_fgtsAT(valor, percentagem, indexAlpha) {
-    certidao += estiloCorpo(`<b>***** QUANDO É PARA CEF</b>`);
-    certidao += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> para <b>depósito em conta do FGTS de titularidade de #{processoTrfHome.nomeCpfAutorList}, vinculada a contrato que se estendeu de XXXXXX (admissão) a XXXXXX, na categoria de XXXXXXXXXXXXX, figurando #{processo.partes.poloPassivo.nomesEDocumentos} na condição de depositante</b>;`);
-    certidao += estiloCorpo(`<b>******* QUANDO É PARA BB</b>`);
-    certidao += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> para <b>depósito em conta do FGTS de titularidade de #{processoTrfHome.nomeCpfAutorList}, PIS XXXXXX, figurando #{processo.partes.poloPassivo.nomesEDocumentos} na condição de depositante</b>;`);
+    certidao += estiloTitulo3(`${indexAlpha}) FUNDO DE GARANTIA DO TEMPO DE SERVIÇO - FGTS`);
+    certidao += estiloCorpo(`<i>Valor:</i> <b>${valor} (${percentagem})</b>`);
+    certidao += estiloCorpo("<i>Forma:</i> Depósito em conta do FGTS de #{processoTrfHome.nomeCpfAutorList}");
+    certidao += estiloCorpo("<i>Depositante:</i> #{processo.partes.poloPassivo.nomesEDocumentos}");
+    certidao += estiloCorpo("<b>***** QUANDO É PARA CEF</b>");
+    certidao += estiloCorpo("<i>Outras informações:</i> Conta vinculada a contrato que se estendeu de XXXXXX (admissão) a XXXXXX, na categoria de XXXXXXXXXXXXX");
+    certidao += estiloCorpo("<b>******* QUANDO É PARA BB</b>");
+    certidao += estiloCorpo("<i>Outras informações:</i> PIS XXXXXX");
   }
 
   // Restituição ao TRT-9
   function rest_trtAT(valor, percentagem, indexAlpha) {
-    certidao += estiloCorpo(`${indexAlpha}) <b>${valor} (${percentagem})</b> para o <b>TRT DA 9ª REGIÃO</b>, a título de <b>restituição da importância antecipada para a prova pericial</b>;`)
+    certidao += estiloTitulo3(`${indexAlpha}) RESTITUIÇÃO AO TRT DA 9ª REGIÃO`);
+    certidao += estiloCorpo(`<i>Valor:</i> <b>${valor} (${percentagem})</b>`);
+    certidao += estiloCorpo("<i>Justificativa:</i> Restituição da importância antecipada para a prova pericial");
   }
 
   // Insere a certidão na caixa
