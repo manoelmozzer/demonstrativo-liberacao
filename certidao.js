@@ -240,7 +240,7 @@ function atualizaCertidao() {
   function cont_prevAT(valor, percentagem, indexAlpha) {
     certidao += estiloTitulo3(`${indexAlpha}) CONTRIBUIÇÕES PREVIDENCIÁRIAS`);
     certidao += estiloCorpo(`<i>Valor:</i> <b>${valor} (${percentagem})</b>`);
-    certidao += estiloCorpo("<i>Contribuinte:</i>: #{processo.partes.poloPassivo.nomesEDocumentos}");
+    certidao += estiloCorpo("<i>Contribuinte:</i> #{processo.partes.poloPassivo.nomesEDocumentos}");
   }
 
   // Honorários de Sucumbência do Advogado do Exequente
