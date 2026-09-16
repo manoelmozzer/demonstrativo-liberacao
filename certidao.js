@@ -232,7 +232,7 @@ function atualizaCertidao() {
     certidao += estiloTitulo3(`${indexAlpha}) PRINCIPAL - DEVIDO AO EXEQUENTE`);
     certidao += estiloCorpo(`<i>Valor:</i> <b>${valor} (${percentagem})</b>`);
     certidao += estiloCorpo("<i>Destinatário:</i> #{processoTrfHome.nomeCpfAutorList}");
-    certidao += estiloCorpo("<i>Forma:</i> Conta de sua titularidade e/ou do(s) seu(s) procurador(es) (poderes para \"receber\" e \"dar quitação\": ID. XXXXXXX)");
+    certidao += estiloCorpo("<i>Forma:</i> Conta de sua titularidade e/ou do(s) seu(s) procurador(es). Poderes para \"receber\" e \"dar quitação\": ID. XXXXXXX");
     certidao += estiloCorpo("<i>Procurador(es):</i> #{processo.partes.poloAtivo.advogados.nomesEDocumentos.linhas}, #{processo.partes.poloAtivo.advogados.nomesEOAB.linhas} (conta: XXXX, agência: YYYY, Banco ZZZZ)");
   }
 
@@ -265,7 +265,7 @@ function atualizaCertidao() {
     certidao += estiloTitulo3(`${indexAlpha}) HONORÁRIOS ASSISTENCIAIS - SINDICATO`);
     certidao += estiloCorpo(`<i>Valor:</i> <b>${valor} (${percentagem})</b>`);
     certidao += estiloCorpo("<i>Destinatário:</i> Substituto processual (Sindicato XXXXXX - Sindicato dos Empregados em Estabelecimentos Bancários de Pato Branco e Região - CNPJ 78.278.710/0001-75)");
-    certidao += estiloCorpo("<i>Forma:</i> Conta de sua titularidade e/ou do(s) seu(s) procurador(es) (poderes para \"receber\" e \"dar quitação\": ID. XXXXXXX da Ação Coletiva nº XXXXXXXXX");
+    certidao += estiloCorpo("<i>Forma:</i> Conta de sua titularidade e/ou do(s) seu(s) procurador(es). Poderes para \"receber\" e \"dar quitação\": ID. XXXXXXX da Ação Coletiva nº XXXXXXXXX");
     certidao += estiloCorpo("<i>Procurador(es):</i> #{processo.partes.poloAtivo.advogados.nomesEDocumentos.linhas}, #{processo.partes.poloAtivo.advogados.nomesEOAB.linhas} (conta: XXXX, agência: YYYY, Banco ZZZZ)");
     certidao += estiloCorpo("<b>OBS:</b> Verificar se tem procuração atualizada, ou se é necessário intimar para apresentar procuração recente.");
   }
